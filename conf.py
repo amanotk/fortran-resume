@@ -227,13 +227,15 @@ latex_elements = {
 
 # Latex figure (float) alignment
 #'figure_align': 'htbp',
+
+'releasename': '',
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-  (master_doc, 'Fortran.tex', u'Fortran演習',
+  (master_doc, 'fortran.tex', u'Fortran演習',
    u'天野孝伸', 'manual'),
 ]
 
