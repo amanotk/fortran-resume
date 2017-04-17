@@ -239,38 +239,38 @@ Fortran 90以降では，この問題を解決するために，内部手続き�
 
 ::
 
-    ! 面積を計算するモジュール
-    module mod_area
-      implicit none
+   ! 面積を計算するモジュール
+   module mod_area
+     implicit none
 
-      real(8)，parameter :: pi = 4*atan(1.0_8)
+     real(8), parameter :: pi = 4*atan(1.0_8)
 
-      ! 総称名を定義
-      interface triangle
-         module procedure triangle1，triangle2
-      end interface triangle
+     ! 総称名を定義
+     interface triangle
+        module procedure triangle1, triangle2
+     end interface triangle
 
-    contains
+   contains
 
-      ! 底辺と高さが与えられた時の面積の計算
-      function triangle1(a，b) result(area)
-        real(8)，intent(in) :: a，b
-        real(8) :: area
+     ! 底辺と高さが与えられた時の面積の計算
+     function triangle1(a, b) result(area)
+       real(8), intent(in) :: a, b
+       real(8) :: area
 
-        area = a * b / 2
+       area = a * b / 2
 
-      end function triangle1
+     end function triangle1
 
-      ! 3つの頂点の座標が与えられた時の面積の計算
-      function triangle2(x1，y1，x2，y2，x3，y3) result(area)
-        real(8)，intent(in) :: x1，y1，x2，y2，x3，y3
-        real(8) :: area
+     ! 3つの頂点の座標が与えられた時の面積の計算
+     function triangle2(x1, y1, x2, y2, x3, y3) result(area)
+       real(8), intent(in) :: x1, y1, x2, y2, x3, y3
+       real(8) :: area
 
-        area = abs((x2-x1)*(y3-y1) - (x3-x1)*(y2-y1))/2
+       area = abs((x2-x1)*(y3-y1) - (x3-x1)*(y2-y1))/2
 
-      end function triangle2
+     end function triangle2
 
-    end module mod_area
+   end module mod_area
 
 この例では三角形の面積を底辺と高さが与えられた時と3つの頂点の座標が与えられた時のいずれも同じ関数名で呼び出すことが出来るように総称名 ``triangle`` を宣言している．2つの違いは呼び出し時の引数だけなので，呼び出される時の引数の個数や型によってコンパイラが自動的に適切な方を呼び出すことが出来る．なお，総称名を用いると全く別の機能を実装したものであってもまとめることが出来てしまうのだが，このような使い方は混乱の元になるだけであろう．総称名を使うのは意味的に同じ機能を持った関数やサブルーチンをまとめる時にのみにしておいた方が良い．
 

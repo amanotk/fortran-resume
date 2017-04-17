@@ -186,12 +186,12 @@
     program sample
       implicit none
 
-      メインプログラムの処理
+      ! メインプログラムの処理
 
       stop
     contains
 
-      内部手続の定義場所
+      ! 内部手続の定義場所
 
     end program sample
 
@@ -211,11 +211,11 @@
       stop
     contains
       function square(x) result(y)
-        定義
+        ! 定義
       end function square
 
       subroutine hello(name)
-        定義
+        ! 定義
       end subroutine hello
     end program sample
 
