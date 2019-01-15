@@ -6,6 +6,7 @@ SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = _build
+PUBLICDIR     = public
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -66,16 +67,16 @@ html:
 pubhtml:
 	# use layout.html for google analytics
 	cp _templates/layout-analytics.html _templates/layout.html
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
 	# remove layout.html
 	rm _templates/layout.html
 	# copy sample code
-	cp -r sample $(BUILDDIR)/html/
-	cp -r data $(BUILDDIR)/html/
-	cd $(BUILDDIR)/html
-	tar -zcvf $(BUILDDIR)/html/sample.tar.gz sample
+	cp -r sample $(PUBLICDIR)
+	cp -r data $(PUBLICDIR)
+	cd $(PUBLICDIR)
+	tar -zcvf $(PUBLICDIR)/sample.tar.gz sample
 	@echo
-	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+	@echo "Build finished. The HTML pages are in $(PUBLICDIR)."
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
