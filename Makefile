@@ -52,9 +52,26 @@ clean:
 	rm -rf $(BUILDDIR)/*
 
 html:
+	# remove layout.html
+	if [ -e _templates/layout.html ]; then rm _templates/layout.html; fi
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	# copy sample code
 	cp -r sample $(BUILDDIR)/html/
+	cp -r data $(BUILDDIR)/html/
+	cd $(BUILDDIR)/html
+	tar -zcvf $(BUILDDIR)/html/sample.tar.gz sample
+	@echo
+	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+pubhtml:
+	# use layout.html for google analytics
+	cp _templates/layout-analytics.html _templates/layout.html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	# remove layout.html
+	rm _templates/layout.html
+	# copy sample code
+	cp -r sample $(BUILDDIR)/html/
+	cp -r data $(BUILDDIR)/html/
 	cd $(BUILDDIR)/html
 	tar -zcvf $(BUILDDIR)/html/sample.tar.gz sample
 	@echo

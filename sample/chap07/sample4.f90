@@ -1,7 +1,6 @@
 program sample
   implicit none
 
-  character(8) :: hexstr
   integer :: i
   real(8) :: a, b, c
   real(8) :: x(10)
@@ -24,17 +23,6 @@ program sample
      call fibonacci()
   end do
 
-  ! optional
-  call hello('Michael')     ! 標準出力へ
-  call hello('Jackson', 0)  ! 標準エラー出力へ
-
-  ! キーワード引数の使い方
-  call hello(unit=6, name='Albert') ! 標準出力へ
-  call hello(name='Einstein')       ! 標準出力へ
-
-  ! rescursive
-  write(*,*) fact(2), fact(4), fact(6)
-
   stop
 contains
 
@@ -45,10 +33,18 @@ contains
   ! * intent(out)   => 出力用変数
   ! * intent(inout) => 入出力
   !
+  ! 以下は
+  !
+  ! c = a + b
+  !
+  ! のような処理を行うことを意図している．ユーザーはこの場合にaやbが変更されると
+  ! は予想しないであろう．誤ってサブルーチン内でaやbの値を変更するのを防ぐために
+  ! intent(in)を指定する．
+  !
   subroutine add(a, b, c)
     implicit none
-    real(8), intent(in)  :: a, b
-    real(8), intent(out) :: c
+    real(8), intent(in)  :: a, b       ! 入力用変数(変更不可)
+    real(8), intent(out) :: c          ! 出力用変数
 
     ! 以下はコンパイルエラー
     !a = 1.0_8
@@ -61,9 +57,12 @@ contains
   !
   ! <<< 形状引継ぎ配列の使い方 >>>
   !
+  ! 引数の配列のサイズは自動的に呼出し時に与えた配列のサイズになる
+  ! サイズが必要な場合は組み込み関数sizeを用いて取得可能
+  !
   function average1(x) result(ave)
     implicit none
-    real(8), intent(in) :: x(:)
+    real(8), intent(in) :: x(:)        ! サイズは自動的に決まる
     real(8) :: ave
 
     ave = sum(x) / size(x)
@@ -73,10 +72,12 @@ contains
   !
   ! <<< 配列サイズの引数渡し >>>
   !
+  ! 配列のサイズを引数として明示的に受け取る
+  !
   function average2(n, x) result(ave)
     implicit none
-    integer, intent(in) :: n
-    real(8), intent(in) :: x(n)
+    integer, intent(in) :: n           ! サイズを引数として受け取る
+    real(8), intent(in) :: x(n)        ! サイズは引数として渡された整数
     real(8) :: ave
 
     ave = sum(x) / size(x)
@@ -86,9 +87,12 @@ contains
   !
   ! <<< save属性 >>>
   !
+  ! save属性付きの変数はプログラム実行中はその値を保持するので，複数回呼び出され
+  ! た場合には前回の呼出し時の値を記憶したままとなる
+  !
   subroutine fibonacci()
     implicit none
-    ! 以下の3つがsave属性付き
+    ! 以下の3つがsave属性付き (初回の呼出し時の値は宣言文で与える)
     integer, save :: n  = 1
     integer, save :: f0 = 0
     integer, save :: f1 = 0
@@ -104,48 +108,11 @@ contains
 
     write(*,*) 'Fibonacci number [', n, '] = ', f2
 
-    ! 次回呼び出し用
+    ! 次回呼び出し用 (これらの値を記憶し続ける)
     n  = n + 1
     f0 = f1
     f1 = f2
 
   end subroutine fibonacci
-
-  !
-  ! <<< optional属性 >>>
-  !
-  subroutine hello(name, unit)
-    implicit none
-    character(len=*), intent(in)  :: name
-    integer, intent(in), optional :: unit
-
-    integer :: u
-
-    if( present(unit) ) then
-       u = unit ! unitを指定
-    else
-       u = 6    ! デフォルトは標準出力
-    end if
-
-    write(u,*) 'Hello ', name ! 表示
-
-    return
-  end subroutine hello
-
-  !
-  ! <<< recursive (再帰的呼び出し) >>>
-  !
-  recursive function fact(n) result(m)
-    implicit none
-    integer, intent(in) :: n
-    integer :: m
-
-    if(n == 1) then
-       m = 1
-    else
-       m = n*fact(n-1)
-    end if
-
-  end function fact
 
 end program sample

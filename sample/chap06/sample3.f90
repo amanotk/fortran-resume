@@ -2,75 +2,48 @@ program sample
   implicit none
 
   integer :: i, n, ios
-  real(8), allocatable :: x(:), y(:), xx(:), yy(:)
+  real(8) :: x, y
 
-  n = 64
-  write(*, fmt='("Array size for output = ", i5)') n
-
-  allocate(x(n))
-  allocate(y(n))
-
-  do i = 1, n
-     x(i) = real(i,8) / real(n-1,8)
-     y(i) = sin(4*3.1415_8*x(i)) * cos(2*3.1415_8*x(i))
-  end do
+  n = 32
 
   !
-  ! バイナリ(unformatted)で出力(上書き)
+  ! アスキー(formatted)で出力(上書き)
   !
-  open(unit=10, iostat=ios, file='binary.dat', action='write', &
-       & form='unformatted', status='replace')
+  open(unit=10, iostat=ios, file='ascii.dat', action='write', &
+       & form='formatted', status='replace')
 
   if (ios /= 0) then
      write(*,*) 'Failed to open file for output'
      stop
   end if
 
-  ! 配列サイズの出力
-  write(10) n
-
-  ! 配列の出力
-  write(10) x, y
+  ! ファイル(装置番号=10)にデータを書き出し
+  do i = 1, 64
+     x = real(i,8)/real(n-1,8)
+     y = cos(2*3.1415_8 * x)
+     write(10, '(e20.8, e20.8)') x, y
+  end do
 
   close(10)
 
-
   !
-  ! バイナリ(unformatted)で読み込み
+  ! アスキー(formatted)で読み込み (positionはなくても良い)
   !
-  open(unit=20, iostat=ios, file='binary.dat', action='read', &
-       & form='unformatted', status='old')
+  open(unit=20, iostat=ios, file='ascii.dat', action='read', &
+       & form='formatted', status='old', position='rewind')
 
   if (ios /= 0) then
      write(*,*) 'Failed to open file for input'
      stop
   end if
 
-  ! 配列サイズを読み込む
-  read(20) n
-
-  allocate(xx(n))
-  allocate(yy(n))
-
-  ! 配列を読み込む
-  read(20) xx, yy
-
-  close(20)
-
-  ! データが等しいかどうかをチェックする
   do i = 1, n
-     if( x(i) /= xx(i) .or. y(i) /= yy(i) ) then ! 厳密に等しいハズ
-        write(*,*) 'Error !'
-        stop
-     end if
+     ! データを読み込んで表示
+     read(20,*) x, y
+     write(*, '(e20.8, e20.8)') x, y
   end do
 
-  write(*,*) 'Binary read/write success !'
-
-  deallocate(x)
-  deallocate(y)
-  deallocate(xx)
-  deallocate(yy)
+  close(20)
 
   stop
 end program sample

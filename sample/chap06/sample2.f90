@@ -1,10 +1,7 @@
 program sample
   implicit none
 
-  integer :: i, n, ios
-  real(8) :: x, y
-
-  n = 64
+  integer :: ios
 
   !
   ! ファイルを開く
@@ -36,13 +33,7 @@ program sample
      stop
   end if
 
-  ! ファイル(装置番号=10)にデータを書き出し
-  do i = 1, 64
-     x = real(i,8)/real(n-1,8)
-     y = cos(2*3.1415_8 * x)
-     write(10, '(e20.8, e20.8)') x, y
-  end do
-
+  ! ファイルを閉じる
   close(10)
 
   !
@@ -58,12 +49,7 @@ program sample
      stop
   end if
 
-  do i = 1, n
-     ! データを読み込んで表示
-     read(20,*) x, y
-     write(*, '(e20.8, e20.8)') x, y
-  end do
-
+  ! ファイルを閉じる
   close(20)
 
   stop

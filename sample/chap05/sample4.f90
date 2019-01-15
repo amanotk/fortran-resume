@@ -1,50 +1,37 @@
 program sample
   implicit none
 
-  integer, parameter :: n = 5
   integer :: i, j
-  real(8) :: a(n,n), b(n), x(n)
-  real(8) :: inner
 
-  x = (/1.0_8, 0.5_8, 0.0_8, 0.5_8, 1.0_8/)
+  ! 2次元配列 (10 x 10 => 計100要素)
+  real(8) :: a(10,10)
 
-  a = reshape( &
-       & (/-2.0,  1.0,  0.0,  0.0,  0.0, &
-       &    1.0, -2.0,  1.0,  0.0,  0.0, &
-       &    0.0,  1.0, -2.0,  1.0,  0.0, &
-       &    0.0,  0.0,  1.0, -2.0,  1.0, &
-       &    1.0,  0.0,  0.0,  1.0, -2.0/), &
-       & (/n, n/))
+  ! 3次元配列 (4 x 8 x 16 => 計512要素)
+  real(8) :: b(4, 8, 16)
 
-  ! 初期化
-  do i = 1, n
-    b(i) = 0.0_8
+  ! 動的配列も同様に宣言できる
+  real(8), allocatable :: c(:,:)
+
+  ! 動的配列: 4 x 8
+  if( .not. allocated(c) ) then
+     allocate(c(4,8))
+  end if
+
+  ! 配列に値を代入
+  do j = 1, 4
+     do i = 1, 8
+        c(i,j) = i*j
+     end do
   end do
 
-  ! 行列aとベクトルxの積をbに代入: b_{i} = a_{i,j} * x_{j}
-  do j = 1, n
-    do i = 1, n
-      b(i) = b(i) + a(i,j) * x(j)
-    end do
+  ! 配列の中身を表示
+  do j = 1, 4
+     do i = 1, 8
+        write(*,*) c(i,j)
+     end do
   end do
 
-  write(*,*) 'b = ', b
-
-  ! 組み込み関数を使用して同じ計算を行う
-  b = matmul(a, x)
-
-  write(*,*) 'b = ', b
-
-  ! ベクトル同士の内積を計算
-  inner = 0.0_8
-  do i = 1, n
-    inner = inner + b(i) * x(i)
-  end do
-
-  ! 組み込み関数を使用して同じ計算を行う
-  inner = dot_product(b, x)
-
-  write(*,*) 'inner product = ', inner
+  deallocate(c)
 
   stop
 end program sample

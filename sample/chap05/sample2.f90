@@ -1,38 +1,18 @@
 program sample
   implicit none
 
-  integer :: n
+  ! 宣言と同時に初期化
+  integer :: a(5) = (/1, 2, 4, 8, 16/)
 
-  ! 動的配列(実行時にしかサイズが分からない場合)
-  integer, allocatable :: x(:)
+  ! 定数配列
+  integer, parameter :: b(3) = (/-1, 0, 1/)
 
-  ! 以下は動的(allocatable)配列の使い方
-  write(*,*) 'Input array size: '
+  ! "(/" と "/)" で囲えばその場で配列を作ることが出来る
+  write(*,*) (/1, 2, 3/)
 
-  ! 配列サイズ
-  read(*,*) n
+  write(*,*) a
 
-  ! allocateされていないことを確認してからallocate
-  if( .not. allocated(x) ) then
-     allocate(x(n))
-  else
-     write(*,*) 'Error: already allocated'
-  end if
-
-  ! 確かにallocateされたか?
-  if( allocated(x) ) then
-     write(*,*) 'Successfully allocated'
-  end if
-
-  ! 配列の各要素を読み込み
-  write(*,*) 'Input array elements: '
-  read(*,*) x
-
-  ! 出力
-  write(*,*) 'allocatable array : ', x
-
-  ! メモリを解放
-  deallocate(x)
+  write(*,*) b
 
   stop
 end program sample

@@ -1,52 +1,40 @@
 program sample
   implicit none
-  !
-  ! 外部関数を呼び出すために必要
-  ! (本当は後で学ぶモジュールを使うほうがスマート)
-  !
-  interface
-     real(8) function square_ext(x)
-       real(8) :: x
-     end function square_ext
-  end interface
 
-  ! 実はこれだけでもOKなのですが
-  !real(8), external :: square_ext
+  write(*,*) 'square1 => ', square1(2.0_8)
+  write(*,*) 'square2 => ', square2(2.0_8)
 
-  write(*,*) 2.0_8, square(2.0_8), square_ext(2.0_8)
-
-  ! これはエラー
-  !write(*,*) square(2.0)
+  ! 以下はエラー (引数はreal(8)で宣言されているのに与えられたのはreal(4))
+  !write(*,*) square1(2.0), square2(2.0)
 
   stop
 contains
-  ! --- 内部手続きの宣言はここから ---
+  !!!!!!!!!! 関数やサブルーチンの宣言はここから !!!!!!!!!!
 
   !
-  ! 関数の宣言
+  ! 関数の宣言(1) : 関数名と同じ名前の変数に返値を代入する形式
   !
-  function square(x) result(y)    ! squareという名前を宣言(引数がx、返値がy)
-    implicit none                 !
+  real(8) function square1(x)     ! square1という名前で関数を宣言
+    implicit none                 ! 暗黙の型宣言の禁止
     real(8) :: x                  ! 引数を宣言
-    real(8) :: y                  ! 返値を宣言
 
-    y = x**2                      ! 返り値
+    square1 = x**2                ! 返値は関数名と同じ名前の変数に代入
 
     return                        ! 呼び出し元に制御を戻す
-  end function square
+  end function square1
 
-  ! --- ここまで ---
+  !
+  ! 関数の宣言(2) : resultを使った形式
+  !
+  function square2(x) result(y)   ! square2という名前で関数を宣言
+    implicit none                 ! 暗黙の型宣言の禁止
+    real(8) :: x                  ! 引数を宣言
+    real(8) :: y                  ! 返値となる変数(result)の宣言
+
+    y = x**2                      ! 返値を代入
+
+    return                        ! 呼び出し元に制御を戻す
+  end function square2
+
+  !!!!!!!!!! ここまでの間に行う !!!!!!!!!!
 end program sample
-
-!
-! 外部手続き
-!
-function square_ext(x) result(y)
-  implicit none
-  real(8) :: x
-  real(8) :: y
-
-  y = x**2
-
-  return
-end function square_ext

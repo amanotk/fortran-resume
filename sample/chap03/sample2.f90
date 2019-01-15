@@ -1,5 +1,5 @@
 program sample
-  implicit none
+  implicit none ! 暗黙の型宣言禁止
 
   ! 整数型
   integer(kind=4)     :: i4     ! 4バイト（32ビット）の整数型
@@ -11,17 +11,18 @@ program sample
   real(kind=16)       :: r16    ! 16バイト(128ビット）の実数型（4倍精度）
 
   ! 複素数型（実数2つ分の領域が必要になる）
-  complex(kind=4)     :: c4     ! 8バイト（64ビット）の複素数型
-  complex(kind=8)     :: c8     ! 16バイト（128ビット）の複素数型
+  complex(kind=4)     :: c4     ! 8バイト（64ビット）の複素数型   = 単精度
+  complex(kind=8)     :: c8     ! 16バイト（128ビット）の複素数型 = 倍精度
 
   ! ただし'kind='を省略して例えば以下のように宣言しても良い
-  real(8) :: x
+  real(8) :: x, y, z
 
   ! 文字列型は少し特殊で通常はkind=1である。文字列の長さはlen=で指定する
   character(len=256)  :: char   ! 256文字分
 
-  ! 定数変数
-  integer(kind=4), parameter :: this_is_constant = 1024
+  ! 論理型(このように宣言文で初期化してもよい)
+  logical :: torf = .true.
+
 
   ! 4バイト整数に値を代入
   i4 = 2048
@@ -50,8 +51,21 @@ program sample
   ! 文字型の変数に文字列を代入
   char = 'this is text'
 
-  ! 次のような定数変数への代入を行うコードがあるとコンパイルエラーとなる
-  ! this_is_constant = 1
+  ! 実数を代入して表示
+  x = 3.14
+  write(*,*) 'real (original) => ', x
+
+  ! yにxの値を代入
+  y = x
+
+  ! xの値を変更
+  x = 2.71
+
+  ! yの値を表示（xを変更してもeは変更されない）
+  write(*,*) 'real (not modified) => ', y
+
+  ! 論理型の値を表示
+  write(*,*) 'logical => ', torf
 
   stop
 end program sample

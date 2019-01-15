@@ -1,0 +1,11 @@
+* html
+make html
+
+# html with Google-Analytics code
+make pubhtml
+
+# pdf
+make latexpdfja
+
+pygmentsのlexers/fortran.pyを少しいじらないと"1.0_8"のような数値リテラルが
+含まれるコードがFotranコードと認識されないバグがあるので注意．

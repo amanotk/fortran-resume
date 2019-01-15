@@ -1,46 +1,23 @@
 program sample
   implicit none
 
-  !
-  ! 外部サブルーチンを使う
-  ! (サブルーチンの場合はこれが無くても動く)
-  !
-  interface
-     subroutine hello_ext(name)
-       character(len=*) :: name
-     end subroutine hello_ext
-  end interface
-
-  ! こういう書き方もできる
-  !external :: hello_ext
-
   call hello('Michel')
-  call hello_ext('Jackson')
 
   stop
 contains
-  !
-  ! サブルーチンの宣言(内部手続き)
-  !
-  subroutine hello(name)
-    implicit none
-    character(len=*) :: name
+  !!!!!!!!!! 関数やサブルーチンの宣言はここから !!!!!!!!!!
 
-    write(*,*) 'Hello ', name
+  !
+  ! サブルーチンの宣言
+  !
+  subroutine hello(name)          ! helloという名前でサブルーチンを宣言
+    implicit none                 ! 暗黙の型宣言の禁止
+    character(len=*) :: name      ! 引数を宣言 (任意長の文字列)
+
+    write(*,*) 'Hello ', name     ! 内部の処理
 
     return
   end subroutine hello
 
+  !!!!!!!!!! ここまでの間に行う !!!!!!!!!!
 end program sample
-
-!
-! サブルーチンの宣言(外部手続き)
-!
-subroutine hello_ext(name)
-  implicit none
-  character(len=*) :: name
-
-  write(*,*) 'Hello (ext) ', name
-
-  return
-end subroutine hello_ext

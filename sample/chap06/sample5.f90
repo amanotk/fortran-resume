@@ -1,33 +1,41 @@
 program sample
   implicit none
 
-  integer, parameter :: max_line = 256
-  integer :: ios, nline
-  character(max_line) :: line
+  character(len=*), parameter :: text = 'initialization by this string'
+  character(len=16) :: a, b, c, d
+  character(len=64) :: str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  integer :: i1, i2, n
 
-  nline = 0
+  a = 'This'
+  b = 'is'
+  c = 'a'
+  d = 'pen'
 
-  !
-  ! fmt='(a)'  : 行末までを読み込むのに必要(途中のスペースで途切れないように)
-  ! iostat=ios : ステータスがiosに代入される
-  !
-  read(*, fmt='(a)', iostat=ios) line
+  ! 何も考えずに出力
+  write(*,*) a, b, c, d
 
-  !
-  ! ios >  0 : 何らかのエラー
-  ! ios == 0 : 正常に読み込まれた
-  ! ios <  0 : ファイルの終端に達した
-  !
-  do while(ios == 0)
-     ! 空白行以外をカウント(line == '' なら空白行である)
-     if (line /= '') then
-        nline = nline + 1
-     end if
-     ! 次の行を読み込む
-     read(*, fmt='(a)', iostat=ios) line
+  ! 文字列を結合して出力
+  write(*,*) a // b // c // d
+
+  ! 6文字分ずつ
+  write(*, '(a6,a6,a6,a6)') a, b, c, d
+
+  ! 間の空白無し
+  write(*, '(a)') trim(a) // trim(b) // trim(c) // trim(d)
+
+  ! 空白を削除して結合
+  write(*, '(a,x,a,x,a,x,a)') trim(a), trim(b), trim(c), trim(d)
+
+  ! XYZと一致する部分文字列を検索し, 開始位置のインデックスを返す
+  i1 = index(str, 'XYZ')
+  i2 = i1 + len('XYZ')
+  write(*,*) str(i1:i2)  ! XYZを出力
+
+  ! 内部ファイルを用いて連番のファイル名を作成
+  do n = 1, 8
+     write(str, '("data",i3.3,".dat")') n
+     write(*, '(a)') str
   end do
-
-  write(*,*) 'Number of lines (without brank) : ', nline
 
   stop
 end program sample

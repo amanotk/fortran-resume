@@ -8,12 +8,7 @@ program sample
 
   ! 配列の添字範囲を指定して宣言
   integer :: b(0:4)
-
-  ! 宣言と同時に初期化
-  integer :: c(5) = (/1, 2, 4, 8, 16/)
-
-  ! 定数配列
-  integer, parameter :: d(3) = (/-1, 0, 1/)
+  integer :: c(6:10)
 
   ! 実数型
   real(8) :: x(100)
@@ -24,24 +19,27 @@ program sample
      a(i) = i
   end do
 
-  ! 各要素同士でのの演算も出来る
   do i = 0, 4
-     b(i) = 2*c(i) + a(i)
+     b(i) = i
   end do
 
-  ! 出力
+  ! 各要素同士の演算も出来る(添字に注意)
+  do i = 1, 5
+     c(i+5) = 2*a(i) + b(i-1)
+  end do
+
+  ! それぞれの値を出力
   do i = 1, 5
      write(*,*) 'a(', i, ') = ', a(i)
   end do
 
-  ! このような書き方もできる
-  write(*,*) 'b(0:4) = ', (b(i), i = 0, 4, 1)
+  do i = 0, 4
+     write(*,*) 'b(', i, ') = ', b(i)
+  end do
 
-  ! 単にこれだけでもよい
-  write(*,*) 'c      = ', c
-
-  ! 定数配列の書き換えはできない
-  !d(1) = 100
+  do i = 6, 10
+     write(*,*) 'c(', i, ') = ', c(i)
+  end do
 
   ! 値をセットして
   do i = 1, 100
@@ -49,6 +47,7 @@ program sample
   end do
 
   ! 配列の和を求める
+  sum = 0.0_8
   do i = 1, 100
      sum = sum + x(i)
   end do
