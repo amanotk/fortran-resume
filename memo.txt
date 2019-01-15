@@ -4,6 +4,9 @@ make html
 # html with Google-Analytics code
 make pubhtml
 
+public ディレクトリに出力
+=> gitのsubmoduleで公開
+
 # pdf
 make latexpdfja
 
