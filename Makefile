@@ -64,19 +64,25 @@ html:
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-pubhtml:
+pubhtml: latexpdfja
 	# use layout.html for google analytics
 	cp _templates/layout-analytics.html _templates/layout.html
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
 	# remove layout.html
 	rm _templates/layout.html
+	@echo
+	@echo "Build finished. The HTML pages are in $(PUBLICDIR)."
 	# copy sample code
 	cp -r sample $(PUBLICDIR)
 	cp -r data $(PUBLICDIR)
 	cd $(PUBLICDIR)
 	tar -zcvf $(PUBLICDIR)/sample.tar.gz sample
 	@echo
-	@echo "Build finished. The HTML pages are in $(PUBLICDIR)."
+	@echo "Sample codes copied"
+	# copy pdf
+	cp $(BUILDDIR)/latex/fortran.pdf $(PUBLICDIR)/fortran-resume.pdf
+	@echo
+	@echo "Pdf copied"
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
