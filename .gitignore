@@ -2,3 +2,8 @@ syntax:glob
 
 .*
 _*
+*.aux
+*.log
+*.out
+*.dvi
+*.tex

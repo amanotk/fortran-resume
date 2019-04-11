@@ -52,6 +52,18 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
+# for building PDF version of kadai
+kadai:  chap02_kadai.pdf chap03_kadai.pdf chap04_kadai.pdf \
+		chap05_kadai.pdf chap06_kadai.pdf chap06_kadai.pdf \
+		chap07_kadai.pdf chap08_kadai.pdf chap09_kadai.pdf \
+		chap10_kadai.pdf
+
+chap%_kadai.pdf:  chap%_kadai.rst
+	pandoc -t latex --template kadai.tex $< -o $(basename $<).tex
+	platex $(basename $<).tex
+	platex $(basename $<).tex
+	dvipdfmx $(basename $<).dvi
+
 html:
 	# remove layout.html
 	if [ -e _templates/layout.html ]; then rm _templates/layout.html; fi
