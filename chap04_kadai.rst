@@ -118,17 +118,17 @@
 .. code-block:: sh
 
     $ ./a.out
-    apple
+    apple    # キーボード入力
      food
-    cat
+    cat      # キーボード入力
      animal
-    car
+    car      # キーボード入力
      vehicle
-    dog
+    dog      # キーボード入力
      animal
-    airplane
+    airplane # キーボード入力
      vehicle
-    bike
+    bike     # キーボード入力
      others
-    exit
+    exit     # キーボード入力
      Now exit program...
