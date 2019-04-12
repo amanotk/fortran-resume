@@ -52,6 +52,13 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 
+# for building PDF for introduction
+intro.pdf: intro.md
+	pandoc -f markdown+hard_line_breaks -t latex --template template/intro.tex $< -o $(basename $<).tex
+	platex $(basename $<).tex
+	platex $(basename $<).tex
+	dvipdfmx $(basename $<).dvi
+
 # for building PDF version of kadai
 kadai:  chap02_kadai.pdf chap03_kadai.pdf chap04_kadai.pdf \
 		chap05_kadai.pdf chap06_kadai.pdf chap06_kadai.pdf \
@@ -59,7 +66,7 @@ kadai:  chap02_kadai.pdf chap03_kadai.pdf chap04_kadai.pdf \
 		chap10_kadai.pdf
 
 chap%_kadai.pdf:  chap%_kadai.rst
-	pandoc -t latex --template kadai.tex $< -o $(basename $<).tex
+	pandoc -t latex --template template/kadai.tex $< -o $(basename $<).tex
 	platex $(basename $<).tex
 	platex $(basename $<).tex
 	dvipdfmx $(basename $<).dvi

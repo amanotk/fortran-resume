@@ -8,7 +8,7 @@ public ディレクトリに出力
 => gitのsubmoduleで公開
 
 # pdf
-make latexpdfja
+make latexpdf
 
 pygmentsのlexers/fortran.pyを少しいじらないと"1.0_8"のような数値リテラルが
 含まれるコードがFotranコードと認識されないバグがあるので注意．
