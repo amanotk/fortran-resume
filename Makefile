@@ -76,7 +76,7 @@ html:
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-pubhtml: latexpdfja
+pubhtml: latexpdf
 	# use layout.html for google analytics
 	cp _templates/layout-analytics.html _templates/layout.html
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
