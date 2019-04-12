@@ -66,7 +66,7 @@ kadai:  chap02_kadai.pdf chap03_kadai.pdf chap04_kadai.pdf \
 		chap10_kadai.pdf
 
 chap%_kadai.pdf:  chap%_kadai.rst
-	pandoc -t latex --template template/kadai.tex $< -o $(basename $<).tex
+	pandoc --filter=./pdfilter.py -t latex --template template/kadai.tex $< -o $(basename $<).tex
 	platex $(basename $<).tex
 	platex $(basename $<).tex
 	dvipdfmx $(basename $<).dvi
