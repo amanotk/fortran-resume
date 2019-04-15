@@ -50,7 +50,7 @@ help:
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 
 clean:
-	rm -rf $(BUILDDIR)/*
+	rm -rf $(BUILDDIR)/* *.aux *.dvi *.log *.out *.tex
 
 # for building PDF for introduction
 intro.pdf: intro.md
@@ -72,9 +72,10 @@ chap%_kadai.pdf:  chap%_kadai.rst
 	dvipdfmx $(basename $<).dvi
 
 html:
-	# remove layout.html
-	if [ -e _templates/layout.html ]; then rm _templates/layout.html; fi
+	# use layout.html for reset css
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	cp _templates/layout-resetcss.html _templates/layout.html
+	rm _templates/layout.html
 	# copy sample code
 	cp -r sample $(BUILDDIR)/html/
 	cp -r data $(BUILDDIR)/html/
@@ -84,9 +85,9 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 pubhtml: latexpdf
-	# use layout.html for google analytics
-	cp _templates/layout-analytics.html _templates/layout.html
+	# use layout.html for reset css and google analytics
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
+	cp _templates/layout-analytics.html _templates/layout.html
 	# remove layout.html
 	rm _templates/layout.html
 	@echo
