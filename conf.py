@@ -18,25 +18,8 @@ import shlex
 
 # add custom stylesheet
 def setup(app):
-    # dummy lexer
-    from pygments.lexer import RegexLexer
-    from pygments.lexers import shell
-
-    #class DummyLexer(RegexLexer):
-    class DummyLexer(shell.BashLexer):
-        name = 'None'
-        aliases = ['none']
-        filenames = ['*.none']
-
-        tokens = {
-            'root': [
-            ]
-        }
-
     # custom style sheet and lexer
     app.add_stylesheet('custom.css')
-    app.add_lexer('bash', DummyLexer())
-    #app.add_lexer('none', shell.BashLexer())
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -278,9 +261,19 @@ latex_elements = {
 }
 
 \makeatletter
+
 \renewcommand{\release}[1]{%
 \renewcommand{\py@release}{}%
 \renewcommand{\version}{#1}}
+
+\definecolor{VerbatimColor}{rgb}{0.1,0.1,0.1}
+\expandafter\def\csname PYG@tok@c\endcsname{\def\PYG@tc##1{\textcolor[rgb]{0.9,0.9,0.9}{##1}}}
+\expandafter\def\csname PYG@tok@cm\endcsname{\def\PYG@tc##1{\textcolor[rgb]{0.9,0.9,0.9}{##1}}}
+\expandafter\def\csname PYG@tok@cp\endcsname{\def\PYG@tc##1{\textcolor[rgb]{0.9,0.9,0.9}{##1}}}
+\expandafter\def\csname PYG@tok@c1\endcsname{\def\PYG@tc##1{\textcolor[rgb]{0.9,0.9,0.9}{##1}}}
+\expandafter\def\csname PYG@tok@cs\endcsname{\def\PYG@tc##1{\textcolor[rgb]{0.9,0.9,0.9}{##1}}}
+\renewcommand{\FancyVerbFormatCom}{\color[rgb]{1.0,1.0,1.0}}
+
 \makeatother
 """,
 
