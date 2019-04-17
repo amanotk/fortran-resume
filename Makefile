@@ -50,26 +50,11 @@ help:
 	@echo "  coverage   to run coverage check of the documentation (if enabled)"
 
 clean:
-	rm -rf $(BUILDDIR)/* *.aux *.dvi *.log *.out *.tex
+	rm -rf $(BUILDDIR)/*
+	make -C kadai clean
 
-# for building PDF for introduction
-intro.pdf: intro.md
-	pandoc -f markdown+hard_line_breaks -t latex --template template/intro.tex $< -o $(basename $<).tex
-	platex $(basename $<).tex
-	platex $(basename $<).tex
-	dvipdfmx $(basename $<).dvi
-
-# for building PDF version of kadai
-kadai:  chap02_kadai.pdf chap03_kadai.pdf chap04_kadai.pdf \
-		chap05_kadai.pdf chap06_kadai.pdf chap06_kadai.pdf \
-		chap07_kadai.pdf chap08_kadai.pdf chap09_kadai.pdf \
-		chap10_kadai.pdf
-
-chap%_kadai.pdf:  chap%_kadai.rst
-	pandoc --filter=./pdfilter.py -t latex --template template/kadai.tex $< -o $(basename $<).tex
-	platex $(basename $<).tex
-	platex $(basename $<).tex
-	dvipdfmx $(basename $<).dvi
+kadaipdf:
+	make -C kadai
 
 html:
 	# use layout.html for reset css
@@ -84,7 +69,7 @@ html:
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-pubhtml: latexpdf
+pubhtml: latexpdf kadaipdf
 	# use layout.html for reset css and google analytics
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
 	cp _templates/layout-analytics.html _templates/layout.html
@@ -100,6 +85,7 @@ pubhtml: latexpdf
 	@echo
 	@echo "Sample codes copied"
 	# copy pdf
+	cp kadai/*.pdf $(PUBLICDIR)/
 	cp $(BUILDDIR)/latex/fortran.pdf $(PUBLICDIR)/fortran-resume.pdf
 	@echo
 	@echo "Pdf copied"
