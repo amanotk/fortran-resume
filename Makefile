@@ -57,6 +57,10 @@ kadaipdf:
 	make -C kadai
 
 html:
+	# convert samples to rst
+	./src2rst.py sample/chap*/*.f90
+	./src2rst.py sample/chap*/*.c
+	./src2rst.py sample/chap*/*.py
 	# use layout.html for reset css
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	cp _templates/layout-resetcss.html _templates/layout.html
@@ -70,6 +74,10 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 pubhtml: latexpdf kadaipdf
+	# convert samples to rst
+	./src2rst.py sample/chap*/*.f90
+	./src2rst.py sample/chap*/*.c
+	./src2rst.py sample/chap*/*.py
 	# use layout.html for reset css and google analytics
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
 	cp _templates/layout-analytics.html _templates/layout.html

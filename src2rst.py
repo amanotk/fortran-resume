@@ -20,7 +20,7 @@ template ="""\
 `サンプルコードのダウンロード <{src}>`_
 
 .. literalinclude:: {src}
-  :language: fortran
+  :language: {language}
   :linenos:
 """
 
@@ -28,9 +28,20 @@ def convert2rst(src):
     sample, chapter, filename = src.split(os.sep)
     name, ext = filename.split('.')
     caption = string.join([chapter, filename], os.sep)
-    rstfile = "{chapter}_{name}.rst".format(chapter=chapter, name=name)
+    rstfile = "{chapter}_{name}_{ext}.rst".format(chapter=chapter, name=name, ext=ext)
+
+    # automatically select highlighting language
+    if   ext == 'f' or ext == 'f90' or ext == 'f95':
+        language = 'fortran'
+    elif ext == 'c':
+        language = 'c'
+    elif ext == 'py':
+        language = 'py'
+    else:
+        raise RuntimeError('Error: language cannot be estimated')
+
     fp = open(rstfile, 'w')
-    fp.write(template.format(src=src, caption=caption))
+    fp.write(template.format(src=src, caption=caption, language=language))
     fp.close()
 
 if __name__ == '__main__':
