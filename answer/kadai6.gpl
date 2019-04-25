@@ -1,0 +1,18 @@
+#!/usr/bin/gnuplot
+
+set term pngcairo
+set output "kadai6.png"
+
+set log x
+set log y
+set xlabel "data size"
+set ylabel "cpu time"
+set key left top
+
+plot "kadai6.dat" u 1:2 w lp t "quick sort", \
+     "kadai6.dat" u 1:3 w lp t "merge sort", \
+     "kadai6.dat" u 1:4 w lp t "heap sort", \
+     "kadai6.dat" u 1:5 w lp t "bubble sort", \
+     1.0e-8*x**2 w l t "x**2", \
+     1.0e-8*x*log(x) w l t "x*log(x)"
+
