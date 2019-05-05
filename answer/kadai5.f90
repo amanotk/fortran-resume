@@ -1,194 +1,219 @@
-!
-! module for counting unique key strings using hash table
-!
-! This code can be compiled with gfortran >= 4.9
-!
-module mod_count
-  implicit none
-
-  integer, parameter :: hashsize = 10007 ! sufficiently large prime number
-  integer, parameter :: maxtry   = 10    ! number of retry for hash collision
-
-  ! data structure for hash
-  type :: hash_type
-     integer :: count
-     character(len=:), allocatable :: key
-  end type hash_type
-
-  ! hash table
-  type(hash_type) :: hashtable(hashsize)
-
-contains
-
-  ! initialize hash table
-  subroutine init_hash()
-    implicit none
-
-    integer :: i
-
-    do i = 1, hashsize
-       hashtable(i)%count = 0
-    end do
-
-  end subroutine init_hash
-
-  !
-  ! hash function
-  !
-  ! convert a given string to an integer
-  ! returned integer can be used for the index of hashtable
-  !
-  function hash(ch) result(ret)
-    implicit none
-    character(*), intent(in) :: ch
-    integer :: ret
-
-    integer :: i, j, n, mul
-
-
-    ret = 0
-    n   = len(ch)/4
-
-    ! for each four-byte chunks
-    do i = 1, n
-       mul = 1
-       do j = 1, 4
-          ret = ret + mul * ichar(ch(4*(i-1)+j:4*(i-1)+j))
-          mul = mul * 256
-       end do
-    end do
-
-    ! remainder
-    mul = 1
-    do j = 1, mod(len(ch), 4)
-       ret = ret + mul * ichar(ch(4*n+j:4*n+j))
-       mul = mul * 256
-    end do
-
-    ! abs() needed to fix possible overflow
-    ret = abs(ret)
-
-    ! convert to integer in the range [1, hashsize]
-    ret = mod(abs(ret), hashsize) + 1
-
-  end function hash
-
-  !
-  ! read line
-  !
-  ! This routine tries to read a whole line into a string to be returned.
-  ! The allocatable character feature and iso_fortran_env module, both
-  ! introduced in the Fortran 2003 standard, are used.
-  !
-  function read_line(unit, status) result(line)
-    use iso_fortran_env
-    implicit none
-    integer, intent(in)       :: unit
-    integer, intent(out)      :: status
-    character(:), allocatable :: line
-
-    integer, parameter        :: n = 32
-    integer                   :: nread
-    character(len=n)          :: buf
-    character(:), allocatable :: str
-
-    ! initialize
-    str = ''
-
-    ! first attempt to read string into buffer
-    read(unit, fmt='(a)', advance='no', size=nread, iostat=status) buf
-
-    ! continue until either end-of-file or end-of-line is detected
-    do while( .not. (is_iostat_eor(status) .or. is_iostat_end(status)) )
-       str = str // buf(1:nread)
-       read(unit, fmt='(a)', advance='no', size=nread, iostat=status) buf
-    end do
-
-    str = str // buf(1:nread)
-
-    ! return
-    line = str
-
-  end function read_line
-
-  !
-  ! process one line
-  !
-  ! This routine first calculate an address (or index) by hash() function to
-  ! which a given key string is stored. If there is no data stored on the
-  ! address, register the key
-  !
-  subroutine process_line(line)
-    implicit none
-    character(*), intent(in) :: line
-
-    integer :: nstr, addr, ntry
-    character(len(line)) :: str
-
-    ! ignore white space or newline
-    if( str == '' .or. str == '\n' ) then
-       return
-    end if
-
-    str  = trim(line)
-    nstr = len(str)
-    addr = hash(str)
-
-    ! calculate address for the hashtable by hash() function
-    addr = hash(str)
-    ntry = 1
-
-    ! loop to avoid hash collision
-    do while( .true. )
-       if( hashtable(addr)%count == 0 ) then
-          ! new key
-          hashtable(addr)%key   = str
-          hashtable(addr)%count = hashtable(addr)%count + 1
-          ! write to stdout
-          write(*,*) str
-          exit
-       else if( hashtable(addr)%key == str ) then
-          ! already registered key
-          hashtable(addr)%count = hashtable(addr)%count + 1
-          exit
-       else
-          ! collision => try to find vacancy
-          write(0,*) 'Collision detected !', ntry
-          addr = mod(addr+1, hashsize)
-          ntry = ntry + 1
-          if( ntry > maxtry ) then
-             write(0,*) 'Error ! : cannot find vacancy in hashtable'
-             call flush()
-             stop
-          end if
-       end if
-    end do
-
-  end subroutine process_line
-
-end module mod_count
-
-!
-! main program
-!
 program kadai5
-  use iso_fortran_env
-  use mod_count
   implicit none
+  character(len=*), parameter :: fmt = '(f12.5, f12.5)'
 
-  integer, parameter :: stdin = 5
-  integer :: status
-  character(len=:), allocatable :: line
+  integer :: n, t
+  real(8) :: x, y, d
 
-  ! initialize
-  call init_hash()
-  line = read_line(stdin, status)
+  integer :: argc, length, status
+  character(len=256) :: argv
 
-  ! continue until end-of-file is detected
-  do while( .not. is_iostat_end(status) )
-     call process_line(line)
-     line = read_line(stdin, status)
-  end do
+  !
+  ! process command line argument
+  !
+  n    = 0
+  t    = 0
+  argc = command_argument_count()
+  if( argc == 1 ) then
+     ! read level
+     call get_command_argument(1, argv, length, status)
+     if( status == 0 ) then
+        read(argv, *) n
+     end if
+     t = 0
+  else if( argc >= 2 ) then
+     ! read level
+     call get_command_argument(1, argv, length, status)
+     if( status == 0 ) then
+        read(argv, *) n
+     end if
+     ! read type
+     call get_command_argument(2, argv, length, status)
+     if( status  == 0 ) then
+        read(argv, *) t
+     end if
+  else
+     write(0,*) 'Error: specify level and type of Hilbert curve with command line arguments'
+     stop
+  end if
+
+  ! step size
+  d = 0.5_8 / 2**n
+
+  select case(t)
+  case(0)
+     ! LDR
+     x = 1 - d/2
+     y = 1 - d/2
+     write(*, fmt) x, y
+     call ldr(n, x, y, d)
+  case(1)
+     ! URD
+     x = 0 + d/2
+     y = 0 + d/2
+     write(*, fmt) x, y
+     call urd(n, x, y, d)
+  case(2)
+     ! RUL
+     x = 0 + d/2
+     y = 0 + d/2
+     write(*, fmt) x, y
+     call rul(n, x, y, d)
+  case(3)
+     ! DLU
+     x = 1 - d/2
+     y = 1 - d/2
+     write(*, fmt) x, y
+     call dlu(n, x, y, d)
+  case default
+     write(*,*) 'Error'
+  end select
 
   stop
+contains
+
+  subroutine mvl(x, y, d)
+    implicit none
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    write(*, fmt) x-d, y
+
+    x = x - d
+    y = y
+
+  end subroutine mvl
+
+  subroutine mvr(x, y, d)
+    implicit none
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    write(*, fmt) x+d, y
+
+    x = x + d
+    y = y
+
+  end subroutine mvr
+
+  subroutine mvu(x, y, d)
+    implicit none
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    write(*, fmt) x, y+d
+
+    x = x
+    y = y + d
+
+  end subroutine mvu
+
+  subroutine mvd(x, y, d)
+    implicit none
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    write(*, fmt) x, y-d
+
+    x = x
+    y = y - d
+
+  end subroutine mvd
+
+  recursive subroutine ldr(n, x, y, d)
+    implicit none
+    integer, intent(in) :: n
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    if( n >= 1 ) then
+       call dlu(n-1, x, y, d)
+       call mvl(x, y, d)
+       call ldr(n-1, x, y, d)
+       call mvd(x, y, d)
+       call ldr(n-1, x, y, d)
+       call mvr(x, y, d)
+       call urd(n-1, x, y, d)
+    else
+       write(*, fmt) x-d, y
+       write(*, fmt) x-d, y-d
+       write(*, fmt) x  , y-d
+       x = x
+       y = y - d
+    end if
+
+  end subroutine ldr
+
+  recursive subroutine urd(n, x, y, d)
+    implicit none
+    integer, intent(in) :: n
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    if( n >= 1 ) then
+       call rul(n-1, x, y, d)
+       call mvu(x, y, d)
+       call urd(n-1, x, y, d)
+       call mvr(x, y, d)
+       call urd(n-1, x, y, d)
+       call mvd(x, y, d)
+       call ldr(n-1, x, y, d)
+    else
+       write(*, fmt) x  , y+d
+       write(*, fmt) x+d, y+d
+       write(*, fmt) x+d, y
+       x = x + d
+       y = y
+    end if
+
+  end subroutine urd
+
+  recursive subroutine rul(n, x, y, d)
+    implicit none
+    integer, intent(in) :: n
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    if( n >= 1 ) then
+       call urd(n-1, x, y, d)
+       call mvr(x, y, d)
+       call rul(n-1, x, y, d)
+       call mvu(x, y, d)
+       call rul(n-1, x, y, d)
+       call mvl(x, y, d)
+       call dlu(n-1, x, y, d)
+    else
+       write(*, fmt) x+d, y
+       write(*, fmt) x+d, y+d
+       write(*, fmt) x  , y+d
+       x = x
+       y = y + d
+    end if
+
+  end subroutine rul
+
+  recursive subroutine dlu(n, x, y, d)
+    implicit none
+    integer, intent(in) :: n
+    real(8), intent(inout) :: x, y
+    real(8), intent(in)    :: d
+
+    if( n >= 1 ) then
+       call ldr(n-1, x, y, d)
+       call mvd(x, y, d)
+       call dlu(n-1, x, y, d)
+       call mvl(x, y, d)
+       call dlu(n-1, x, y, d)
+       call mvu(x, y, d)
+       call rul(n-1, x, y, d)
+    else
+       write(*, fmt) x  , y-d
+       write(*, fmt) x-d, y-d
+       write(*, fmt) x-d, y
+       x = x - d
+       y = y
+    end if
+
+  end subroutine dlu
+
 end program kadai5

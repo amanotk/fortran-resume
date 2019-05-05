@@ -26,8 +26,13 @@ exec_kadai4: kadai4
 	gnuplot kadai4.gpl
 
 exec_kadai5: kadai5
-	./kadai5 < kadai5_1.txt > kadai5_1.dat
-	./kadai5 < kadai5_2.txt > kadai5_2.dat
+	./kadai5 0 0 > kadai5_0.dat
+	./kadai5 1 0 > kadai5_1.dat
+	./kadai5 2 0 > kadai5_2.dat
+	./kadai5 3 0 > kadai5_3.dat
+	./kadai5 4 0 > kadai5_4.dat
+	./kadai5 5 0 > kadai5_5.dat
+	gnuplot kadai5.gpl
 
 exec_kadai6: kadai6
 	./kadai6 > kadai6.dat

@@ -11,12 +11,11 @@ set xlabel "x"
 set ylabel "f(x)"
 set key right top
 
-plot 'kadai7.dat' every :::0::0 u 2:3 w lp lt 1 t 't = 1.0 (numerical)', \
-     f(x, 1.0) w l lt 1 t 't = 1.0 (analytic)', \
-     'kadai7.dat' every :::1::1 u 2:3 w lp lt 2 t 't = 2.0 (numerical)', \
-     f(x, 2.0) w l lt 2 t 't = 2.0 (analytic)', \
-     'kadai7.dat' every :::2::2 u 2:3 w lp lt 3 t 't = 3.0 (numerical)', \
-     f(x, 3.0) w l lt 3 t 't = 3.0 (analytic)', \
-     'kadai7.dat' every :::3::3 u 2:3 w lp lt 4 t 't = 4.0 (numerical)', \
-     f(x, 4.0) w l lt 4 t 't = 4.0 (analytic)'
-
+plot 'kadai7.dat' every :::0::0 u 2:3 w lp lt 1 t 't = 1.0', \
+     'kadai7.dat' every :::1::1 u 2:3 w lp lt 2 t 't = 2.0', \
+     'kadai7.dat' every :::2::2 u 2:3 w lp lt 3 t 't = 3.0', \
+     'kadai7.dat' every :::3::3 u 2:3 w lp lt 4 t 't = 4.0', \
+     f(x, 1.0) w l lt 1 t '', \
+     f(x, 2.0) w l lt 2 t '', \
+     f(x, 3.0) w l lt 3 t '', \
+     f(x, 4.0) w l lt 4 t ''
