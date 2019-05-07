@@ -31,7 +31,7 @@ program kadai8_1
 
   ! results
   do i = 1, n
-     write(*,fmt='("Female[", i3, "] <=> Male[", i3, "]")') i, marriage(i)
+     write(*,fmt='("F[", i3, "] <=> M[", i3, "]")') i, marriage(i)
   end do
 
   deallocate(p)
