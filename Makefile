@@ -56,6 +56,9 @@ clean:
 kadaipdf:
 	make -C kadai
 
+reportpdf:
+	make -C report
+
 html:
 	# convert samples to rst
 	./src2rst.py sample/chap*/*.f90
@@ -73,7 +76,7 @@ html:
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-pubhtml: latexpdf kadaipdf
+pubhtml: latexpdf kadaipdf reportpdf
 	# convert samples to rst
 	./src2rst.py sample/chap*/*.f90
 	./src2rst.py sample/chap*/*.c
@@ -92,6 +95,9 @@ pubhtml: latexpdf kadaipdf
 	tar -zcvf $(PUBLICDIR)/sample.tar.gz sample
 	@echo
 	@echo "Sample codes copied"
+	# copy report
+	cp report/report.pdf $(PUBLICDIR)/report/fortran-report.pdf
+	cp report/files.tar.gz $(PUBLICDIR)/report/files.tar.gz
 	# copy pdf
 	cp kadai/*.pdf $(PUBLICDIR)/
 	cp $(BUILDDIR)/latex/fortran.pdf $(PUBLICDIR)/fortran-resume.pdf

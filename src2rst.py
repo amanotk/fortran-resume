@@ -27,7 +27,7 @@ template ="""\
 def convert2rst(src):
     sample, chapter, filename = src.split(os.sep)
     name, ext = filename.split('.')
-    caption = string.join([chapter, filename], os.sep)
+    caption = os.sep.join([chapter, filename])
     rstfile = "{chapter}_{name}_{ext}.rst".format(chapter=chapter, name=name, ext=ext)
 
     # automatically select highlighting language
