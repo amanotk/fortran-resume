@@ -143,6 +143,13 @@ $endif$
 \renewcommand{\thesection}{課題\arabic{section}}
 \renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
 
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+$if(listings)$
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+$endif$
+
 \makeatother
 
 $for(header-includes)$

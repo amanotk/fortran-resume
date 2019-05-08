@@ -5,10 +5,12 @@
 
  $Id$
 """
+from __future__ import print_function
 
 import sys
 import math
 import mpmath
+
 
 def print_pi(pi, ndigit):
     "print out pi to the terminal"
@@ -17,29 +19,29 @@ def print_pi(pi, ndigit):
     # if the number of digits < 50
     if ndigit < 50:
         i = 0
-        print '%s %s %s %s %s' \
-            % (pistr[50*i+00:50*i+10],
+        print('%s %s %s %s %s' % \
+              (pistr[50*i+00:50*i+10],
                pistr[50*i+10:50*i+20],
                pistr[50*i+20:50*i+30],
                pistr[50*i+30:50*i+40],
-               pistr[50*i+40:50*i+50])
+               pistr[50*i+40:50*i+50]))
         return
     # else
-    for i in range(ndigit/50-1):
-        print '%s %s %s %s %s' \
-            % (pistr[50*i+00:50*i+10],
+    for i in range(ndigit//50-1):
+        print('%s %s %s %s %s' % \
+              (pistr[50*i+00:50*i+10],
                pistr[50*i+10:50*i+20],
                pistr[50*i+20:50*i+30],
                pistr[50*i+30:50*i+40],
-               pistr[50*i+40:50*i+50])
-        print '      ',
-    i = ndigit/50-1
-    print '%s %s %s %s %s' \
-        % (pistr[50*i+00:50*i+10],
+               pistr[50*i+40:50*i+50]))
+        print('       ', end='')
+    i = ndigit//50-1
+    print('%s %s %s %s %s' % \
+          (pistr[50*i+00:50*i+10],
            pistr[50*i+10:50*i+20],
            pistr[50*i+20:50*i+30],
            pistr[50*i+30:50*i+40],
-           pistr[50*i+40:50*i+50])
+           pistr[50*i+40:50*i+50]))
 
 def calc_pi(ndigit, dps):
     "calculate pi using Machin's formula"

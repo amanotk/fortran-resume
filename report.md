@@ -11,11 +11,11 @@
 
 ```
  $ cd ~/report
- $ wget https://amanotk.github.io/report/files.tar.gz
+ $ wget https://amanotk.github.io/fortran-resume-public/report/files.tar.gz
  $ tar -zxvf files.tar.gz
 ```
 
-とすれば良い．
+とすれば`~/report/files`以下に必要なファイルが展開される．
 
 質問・相談は理学部1号館8F 803で直接，もしくは`amano@eps.s.u-tokyo.ac.jp`で随時受け付ける．
 
