@@ -5,63 +5,72 @@ program kadai8_2
   integer, allocatable :: nsd(:)      ! number of students after assignment
   integer, allocatable :: table(:,:)  ! student assignment table
   integer, allocatable :: spref(:,:)  ! students' list of preference
-  real(8), allocatable :: score(:)    ! students' score
+  integer, allocatable :: srank(:,:)  ! students ranking by department
+  real(8), allocatable :: score(:,:)  ! students' score
+  real(8), allocatable :: weight(:,:) ! subject weight
   real(8), allocatable :: temp(:)     ! temporary array
-  integer :: ns, nd
+  integer :: nstd, ndept, nsubj
   integer :: i, j
 
-  ! read number of departments
-  read(*,*) nd
+  ! read number of departments and subjects
+  read(*,*) ndept, nsubj
 
-  allocate(quota(nd))
+  allocate(quota(ndept))
+  allocate(weight(ndept,nsubj))
 
-  ! read available slots
-  read(*,*) quota
+  ! read available slots and subject weight
+  do i = 1, ndept
+     read(*,*) quota(i), weight(i,:)
+  end do
 
   ! read number of students
-  read(*,*) ns
+  read(*,*) nstd
 
-  allocate(nsd(nd+1))
-  allocate(table(ns,nd+1))
-  allocate(score(ns))
-  allocate(spref(ns,nd))
-  allocate(temp(nd+1))
+  allocate(nsd(ndept+1))
+  allocate(table(nstd,ndept+1))
+  allocate(score(nstd,nsubj))
+  allocate(srank(nstd,ndept))
+  allocate(spref(nstd,ndept))
+  allocate(temp(ndept+nsubj))
 
   ! read student data
-  do i = 1, ns
+  do i = 1, nstd
      ! read into temporary buffer
      read(*,*) temp
      ! copy into score and list of preference
-     score(i)   = temp(1)
-     spref(i,:) = temp(2:nd+1)
+     score(i,:) = temp(1:nsubj)
+     spref(i,:) = temp(nsubj+1:ndept+nsubj)
   end do
 
+  ! calculate student ranking for each department
+  call ranking(score, weight, srank)
+
   ! matching via Gale-Shapley algorithm
-  call match(score, spref, nsd, table, quota, ns, nd)
+  call match(srank, spref, nsd, table, quota, nstd, ndept)
 
   !
   ! show results
   !
-  do i = 1, nd
+  do i = 1, ndept
      write(*, fmt='("Department[", i2, "] : [")', advance='no') i
      do j = 1, nsd(i)
-        write(*, fmt='(x,i4)', advance='no') table(j,i)
+        write(*, fmt='(x,i3)', advance='no') table(j,i)
      end do
      write(*, fmt='(a)') "]"
   end do
 
   ! sort failed students by ID
-  i = nd+1
-  call bsort(table(1:nsd(nd+1),i))
+  i = ndept+1
+  call bsort(table(1:nsd(ndept+1),i))
   write(*,*)
   write(*,fmt='(a)') 'Failed students:'
   do j = 1, nsd(i)
-     write(*, fmt='(x,i4)', advance='no') table(j,i)
+     write(*, fmt='(x,i3)', advance='no') table(j,i)
   end do
   write(*,*)
 
   ! check results just in case ;p
-  call check(score, spref, nsd, table, ns, nd)
+  call check(srank, spref, nsd, table, nstd, ndept)
 
   deallocate(quota)
   deallocate(nsd)
@@ -74,39 +83,28 @@ contains
   !
   ! Gale-Shapley Algorithm for department-student assignment
   !
-  subroutine match(score, pref, r, s, nslot, ns, nd)
+  subroutine match(rank, pref, r, s, nslot, nstd, ndept)
     implicit none
-    real(8), intent(in)  :: score(:)   ! students' score
+    integer, intent(in)  :: rank(:,:)  ! students ranking by department
     integer, intent(in)  :: pref(:,:)  ! students' list of preference
     integer, intent(out) :: r(:)       ! number of students assigned
     integer, intent(out) :: s(:,:)     ! result of assignment
     integer, intent(in)  :: nslot(:)   ! number of available slots
-    integer, intent(in)  :: ns         ! number of students
-    integer, intent(in)  :: nd         ! number of departments
+    integer, intent(in)  :: nstd       ! number of students
+    integer, intent(in)  :: ndept      ! number of departments
 
     integer :: i, x, y, z, nremain
-    integer :: indices(ns), srank(ns), p(ns,nd), q(ns)
-    integer :: itemp(ns), stemp(ns)
-
-    !
-    ! calcualte student ranking by sorting score (independent of department)
-    !
-    stemp = int(-score * 1000) ! cast into integer
-    call qargsort(q, stemp)
-
-    ! student ID to ranking array
-    do i = 1, ns
-       srank(q(i)) = i
-    end do
+    integer :: indices(nstd), p(nstd,ndept)
+    integer :: itemp(nstd)
 
     ! initialization
     p = pref
     r = 0
     s = 0
 
-    nremain = ns
-    do i = 1, ns
-       indices(i) = ns-i+1
+    nremain = nstd
+    do i = 1, nstd
+       indices(i) = nstd-i+1
     end do
 
     !
@@ -130,8 +128,8 @@ contains
           indices = cshift(indices, 1)
           nremain = nremain - 1
           ! put x into the list of failed students
-          nsd(nd+1) = nsd(nd+1) + 1
-          s(nsd(nd+1),nd+1) = x
+          nsd(ndept+1) = nsd(ndept+1) + 1
+          s(nsd(ndept+1),ndept+1) = x
           cycle
        else
           ! found (remove y from the list of preference of x)
@@ -154,7 +152,7 @@ contains
           ! slot is full, pick the worst student z in the slot
           z = s(r(y),y)
 
-          if( srank(z) < srank(x) ) then
+          if( rank(z,y) < rank(x,y) ) then
              ! x is rejected
              s(r(y),y) = z
           else
@@ -164,8 +162,8 @@ contains
           end if
        end if
 
-       ! always keep table sorted by rank
-       call qargsort(itemp(1:r(y)), srank(s(1:r(y),y)))
+       ! always keep table sorted by ranking
+       call qargsort(itemp(1:r(y)), rank(s(1:r(y),y),y))
        s(1:r(y),y) = s(itemp(1:r(y)),y)
     end do
 
@@ -174,20 +172,20 @@ contains
   !
   ! check results of Gale-Shapley matching
   !
-  subroutine check(score, pref, r, s, ns, nd)
+  subroutine check(rank, pref, r, s, nstd, ndept)
     implicit none
-    real(8), intent(in) :: score(:)   ! students' score
+    integer, intent(in) :: rank(:,:)  ! students' ranking by department
     integer, intent(in) :: pref(:,:)  ! students' list of preference
     integer, intent(in) :: r(:)       ! number of students assigned
     integer, intent(in) :: s(:,:)     ! result of assignment
-    integer, intent(in) :: ns         ! number of students
-    integer, intent(in) :: nd         ! number of departments
+    integer, intent(in) :: nstd       ! number of students
+    integer, intent(in) :: ndept      ! number of departments
 
     integer :: i, j, k, x, y
-    integer :: dept(ns), error(ns), status
+    integer :: dept(nstd), error(nstd), status
 
     ! students' ID to department mapping
-    do i = 1, nd+1
+    do i = 1, ndept+1
        do j = 1, r(i)
           dept(s(j,i)) = i
        end do
@@ -198,21 +196,20 @@ contains
     !
     status = 0
     error  = 0
-    do i = 1, ns
+    do i = 1, nstd
        x = dept(i)
 
        ! check for each department in the list of preference
-       do j = 1, nd
+       do j = 1, ndept
           y = pref(i,j)
-
           if(x == y .or. y <= 0) then
              ! this is assigned deparment or no more preference available
              exit
           else
              ! deparment rejected the student, check if it was appropriate
              do k = 1, r(y)
-                ! accepted students should have higher scores
-                if( score(s(k,y)) < score(i) ) then
+                ! accepted students should have higher ranking
+                if( rank(s(k,y),y) > rank(i,y) ) then
                    status   = 1
                    error(i) = 1
                 end if
@@ -222,13 +219,47 @@ contains
     end do
 
     ! show error message
-    do i = 1, ns
+    do i = 1, nstd
        if( error(i) /= 0 ) then
-          write(0, fmt='("Error for Stdt[", i2, "] assigned to Dept[", i2, "]")') i, dept(i)
+          write(0, fmt='("Error for Stdt[", i4, "] assigned to Dept[", i4, "]")') i, dept(i)
        end if
     end do
 
   end subroutine check
+
+  !
+  ! calculate student ranking by department
+  !
+  subroutine ranking(score, weight, srank)
+    implicit none
+    real(8), intent(in)  :: score(:,:)
+    real(8), intent(in)  :: weight(:,:)
+    integer, intent(out) :: srank(:,:)
+
+    integer :: i, j, ndept, nsubj, nstd
+    integer :: p(size(score, 1))
+    integer :: q(size(score, 1))
+    real(8) :: s(size(score, 1))
+
+    ndept = size(weight, 1)
+    nsubj = size(weight, 2)
+    nstd  = size(score, 1)
+
+    do i = 1, ndept
+       ! calcualte student ranking by sorting weighted score
+       do j = 1, nstd
+          s(j) = sum(weight(i,:) * score(j,:))
+       end do
+       p = int(-s * 1000) ! cast into integer
+       call qargsort(q, p)
+
+       ! student ID to ranking array
+       do j = 1, nstd
+          srank(q(j),i) = j
+       end do
+    end do
+
+  end subroutine ranking
 
   !
   ! swap two arguments

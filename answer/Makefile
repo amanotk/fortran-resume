@@ -47,7 +47,7 @@ exec_kadai8: kadai8_1 kadai8_2
 	./kadai8_1 < kadai8_1b.txt
 	./kadai8_2 < kadai8_2a.txt
 	./kadai8_2 < kadai8_2b.txt
-
+	./kadai8_2 < kadai8_2c.txt
 
 
 kadai2: kadai2.f90
