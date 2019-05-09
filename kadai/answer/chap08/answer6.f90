@@ -10,6 +10,7 @@ program answer
   ! 次元数と試行回数を求める
   read(*,*) ndims, trial
 
+  call random_seed_clock()
   approx = volume(ndims, trial) * 2**ndims
   exact  = pi**(ndims*0.5) / gamma(ndims*0.5 + 1)
 
@@ -74,5 +75,22 @@ contains
     end do
 
   end function count_inside
+
+  ! 乱数のseedをシステムクロックに応じて変更
+  subroutine random_seed_clock()
+    implicit none
+    integer :: nseed, clock
+    integer, allocatable :: seed(:)
+
+    call system_clock(clock)
+
+    call random_seed(size=nseed)
+    allocate(seed(nseed))
+
+    seed = clock
+    call random_seed(put=seed)
+
+    deallocate(seed)
+  end subroutine random_seed_clock
 
 end program answer
