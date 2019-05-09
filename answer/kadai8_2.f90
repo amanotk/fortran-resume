@@ -73,6 +73,7 @@ program kadai8_2
   call check(srank, spref, nsd, table, nstd, ndept)
 
   deallocate(quota)
+  deallocate(weight)
   deallocate(nsd)
   deallocate(table)
   deallocate(score)
