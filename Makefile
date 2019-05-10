@@ -82,8 +82,8 @@ pubhtml: latexpdf kadaipdf reportpdf
 	./src2rst.py sample/chap*/*.c
 	./src2rst.py sample/chap*/*.py
 	# use layout.html for reset css and google analytics
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
 	cp _templates/layout-analytics.html _templates/layout.html
+	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
 	# remove layout.html
 	rm _templates/layout.html
 	@echo
