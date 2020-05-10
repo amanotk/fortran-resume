@@ -5,7 +5,7 @@ program answer
 
   read(*,*) l, h
 
-  write(*,*) 'area of triangle: ', h*l/2
+  write(*,*) 'Area of triangle: ', h*l/2
 
   stop
 end program answer

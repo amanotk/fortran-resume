@@ -59,7 +59,7 @@ kadaipdf:
 reportpdf:
 	make -C report
 
-html:
+html: kadaipdf
 	# convert samples to rst
 	./src2rst.py sample/chap*/*.f90
 	./src2rst.py sample/chap*/*.c
@@ -73,6 +73,8 @@ html:
 	cp -r data $(BUILDDIR)/html/
 	cd $(BUILDDIR)/html
 	tar -zcvf $(BUILDDIR)/html/sample.tar.gz sample
+	# copy pdf
+	cp kadai/*.pdf $(BUILDDIR)/html/
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
