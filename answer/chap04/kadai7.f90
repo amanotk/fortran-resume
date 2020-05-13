@@ -1,4 +1,4 @@
-program anaswer
+program answer
   implicit none
 
   integer, parameter :: nmax = 200
