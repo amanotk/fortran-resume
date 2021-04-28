@@ -6,7 +6,7 @@ set output "kadai3_velocity.png"
 set yrange[0:4]
 set log x
 set grid
-set xlabel "distance"
+set xlabel "radial distance"
 set ylabel "flow velocity"
 set key right top
 
@@ -24,7 +24,7 @@ set yrange[1e-3:1e+2]
 set log x
 set log y
 set grid
-set xlabel "distance"
+set xlabel "radial distance"
 set ylabel "Mach number"
 set key right bottom
 

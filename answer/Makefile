@@ -2,10 +2,10 @@
 
 #F90 = gfortran -fbounds-check # for debug
 F90 = gfortran
-KADAI = kadai2 kadai3 kadai4 kadai5 kadai6 kadai7 kadai8_1 kadai8_2
+KADAI = kadai2 kadai3 kadai4 kadai5 kadai6 kadai7
 
 default: exec_kadai2 exec_kadai3 exec_kadai4 exec_kadai5 exec_kadai6 \
-	exec_kadai7 exec_kadai8
+	exec_kadai7
 
 exec_kadai2: kadai2
 	./kadai2    10000 > kadai2.dat
@@ -39,16 +39,8 @@ exec_kadai6: kadai6
 	gnuplot kadai6.gpl
 
 exec_kadai7: kadai7
-	./kadai7 > kadai7.dat
-	gnuplot kadai7.gpl
-
-exec_kadai8: kadai8_1 kadai8_2
-	./kadai8_1 < kadai8_1a.txt
-	./kadai8_1 < kadai8_1b.txt
-	./kadai8_2 < kadai8_2a.txt
-	./kadai8_2 < kadai8_2b.txt
-	./kadai8_2 < kadai8_2c.txt
-
+	./kadai7 < kadai7a.txt
+	./kadai7 < kadai7b.txt
 
 kadai2: kadai2.f90
 	$(F90) -o $@ $^
@@ -68,11 +60,6 @@ kadai6: kadai6_sort.f90 kadai6.f90
 kadai7: kadai7.f90
 	$(F90) -o $@ $^
 
-kadai8_1: kadai8_1.f90
-	$(F90) -o $@ $^
-
-kadai8_2: kadai8_2.f90
-	$(F90) -o $@ $^
 
 
 clean:

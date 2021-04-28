@@ -1,113 +1,123 @@
-program kadai7
+program kadai8_1
   implicit none
 
-  integer, parameter :: np = 20000
-  integer, parameter :: nb = 32
+  integer, allocatable :: p(:,:)      ! list of preference for male
+  integer, allocatable :: q(:,:)      ! list of preference for female
+  integer, allocatable :: marriage(:) ! female to male mapping
+  integer :: i, n
 
-  integer :: i, j, nt, mt
-  real(8) :: u, d, t, tau, tmax, xmin, xmax
-  real(8) :: xp(np), xbin(nb), fx(nb)
+  ! read data
+  read(*,*) n
 
-  t   = 0.0_8
-  u   = 0.5_8
-  d   = 1.0_8
-  tau = 1.0e-3
-  tmax =  4.0_8
-  xmin = -10.0_8
-  xmax = +10.0_8
-
-  nt = tmax/tau
-  mt = nt / 4 + 1
-  call random_seed_clock()
-  call init(xp)
-
-  do i = 1, nt + 1
-     call push(xp, u, d, tau)
-     call histogram(xp, xmin, xmax, nb, xbin, fx)
-     t = t + tau
-
-     ! output data
-     if( mod(i,mt) == 0 ) then
-        do j = 1, nb
-           write(*, '(e15.8, x, e15.8, x, e15.8)') t, xbin(j), fx(j)
-        end do
-        write(*,*)
-     end if
-  end do
-
-contains
+  allocate(p(n,n))
+  allocate(q(n,n))
+  allocate(marriage(n))
 
   ! initialization
-  subroutine init(xp)
+  p = 0
+  q = 0
+  marriage = 0
+
+  ! read list of preference
+  read(*,*) p ! male
+  read(*,*) q ! female
+
+  ! take transpose to make everything easier to understand
+  p = transpose(p)
+  q = transpose(q)
+
+  ! matching via Gale-Shapley algorithm
+  call match(p, q, marriage, n)
+
+  ! results
+  do i = 1, n
+     write(*,fmt='("F[", i3, "] <=> M[", i3, "]")') i, marriage(i)
+  end do
+
+  deallocate(p)
+  deallocate(q)
+  deallocate(marriage)
+
+contains
+  !
+  ! Gale-Shapley Algorithm for Stable Marriage Problem
+  !
+  subroutine match(mpref, wpref, marriage, n)
     implicit none
-    real(8), intent(out) :: xp(:)
+    integer, intent(in)  :: mpref(:,:)    ! list of preference (male to female)
+    integer, intent(in)  :: wpref(:,:)    ! list of preference (female to male)
+    integer, intent(out) :: marriage(:)   ! marriage mapping (female to male)
+    integer, intent(in)  :: n             ! number of male/female
 
-    xp = 0.0_8
-  end subroutine init
+    integer :: i, x, y, z, nsingle
+    integer :: indices(n), p(n,n), q(n,n)
 
-  ! push particle positions
-  subroutine push(xp, u, d, tau)
-    implicit none
-    real(8), intent(inout) :: xp(:)
-    real(8), intent(in) :: u, d, tau
+    ! copy
+    p = mpref
+    q = wpref
 
-    integer :: i, np
-    real(8) :: r(size(xp))
-
-    call random_number(r)
-
-    r = sign(1.0_8, r-0.5_8)
-    xp = xp + u*tau + r*sqrt(2*d*tau)
-
-  end subroutine push
-
-  ! calculate histogram
-  subroutine histogram(x, xmin, xmax, nbin, binc, hist)
-    implicit none
-    real(8), intent(in) :: x(:)
-    real(8), intent(in) :: xmin, xmax
-    integer, intent(in) :: nbin
-    real(8), intent(out) :: binc(nbin)
-    real(8), intent(out) :: hist(nbin)
-
-    integer :: i, j, np
-    real(8) :: h, norm
-
-    np   = size(x)
-    h    = (xmax - xmin) / nbin
-    norm = 1.0_8 / (size(x) * h)
-    hist = 0.0_8
-
-    do i = 1, np
-       j = int( (x(i)-xmin)/h ) + 1
-       if( j < 1 .or. j > nbin ) cycle
-
-       hist(j) = hist(j) + 1.0_8
+    ! initialization
+    nsingle = n
+    do i = 1, n
+       indices(i) = i
     end do
 
-    do j = 1, nbin
-       hist(j) = hist(j) * norm
-       binc(j) = (j - 0.5_8) * h + xmin
+    !
+    ! continue while a single male exists
+    !
+    do while( nsingle > 0 )
+       ! pick a single male
+       if( indices(1) > 0 ) then
+          x = indices(1)
+       else
+          ! something strange happens
+          write(0,*) 'Error: this should not happen !'
+          exit
+       end if
+
+       ! pick the best female y for x
+       y = p(x,1)
+       if( y < 0 ) then
+          ! no such female was found (remove x from the single list)
+          indices(1) = -1
+          indices = cshift(indices, 1)
+          nsingle = nsingle - 1
+          continue
+       else
+          ! found (remove y from the list of preference of x)
+          p(x,1) = -1
+          p(x,:) = cshift(p(x,:), 1)
+       end if
+       !
+       ! let's propose ;p
+       !
+       if( marriage(y) == 0 ) then
+          ! y is single and (x, y) pair engage
+          marriage(y) = x
+          ! remove x from the single list
+          indices(1) = -1
+          indices = cshift(indices, 1)
+          nsingle = nsingle - 1
+       else
+          ! y is engaged with z, so check if y prefers x or z
+          z = marriage(y)
+          do i = 1, n
+             if( q(y,i) == z ) then
+                ! x is rejected and (z, y) pair continue to engage
+                marriage(y) = z
+                exit
+             else if( q(y,i) == x ) then
+                ! z is rejected and (x, y) pair engage
+                marriage(y) = x
+                ! remove x from the single list and add z instead
+                indices(1) = z
+                exit
+             end if
+          end do
+       end if
+
     end do
 
-  end subroutine histogram
+  end subroutine match
 
-  ! set random seed
-  subroutine random_seed_clock()
-    implicit none
-    integer :: nseed, clock
-    integer, allocatable :: seed(:)
-
-    call system_clock(clock)
-
-    call random_seed(size=nseed)
-    allocate(seed(nseed))
-
-    seed = clock
-    call random_seed(put=seed)
-
-    deallocate(seed)
-
-  end subroutine random_seed_clock
-
-end program kadai7
+end program kadai8_1
