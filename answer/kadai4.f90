@@ -22,17 +22,14 @@ program kadai4
   call output(x)
 
   do i = 1, m
-     !
-     ! substitute updated state to temporary array
-     ! (the boundary condition is fixed and x(1) and x(n) do not change)
-     !
-     do j = 2, n-1
-        r = 4*x(j-1) + 2*x(j) + x(j+1)
-        y(j) = rule(8 - r)
-     end do
+     ! substitue to temporary array
+     y = x
 
-     ! update
-     x = y
+     ! update (x(1) and x(n) do not change)
+     do j = 2, n-1
+        r = 4*y(j-1) + 2*y(j) + y(j+1)
+        x(j) = rule(8 - r)
+     end do
 
      ! output
      call output(x)
