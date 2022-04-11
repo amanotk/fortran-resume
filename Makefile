@@ -53,17 +53,19 @@ clean:
 	rm -rf $(BUILDDIR)/*
 	make -C kadai clean
 
-kadaipdf:
-	make -C kadai
+#kadaipdf:
+#	make -C kadai
 
 reportpdf:
 	make -C report
 
-html: kadaipdf
+html:
 	# convert samples to rst
 	./src2rst.py sample/chap*/*.f90
 	./src2rst.py sample/chap*/*.c
 	./src2rst.py sample/chap*/*.py
+	# convert answers to rst
+	./src2rst.py answer/chap*/*.f90
 	# use layout.html for reset css
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	cp _templates/layout-resetcss.html _templates/layout.html
@@ -73,12 +75,12 @@ html: kadaipdf
 	cp -r data $(BUILDDIR)/html/
 	cd $(BUILDDIR)/html
 	tar -zcvf $(BUILDDIR)/html/sample.tar.gz sample
-	# copy pdf
-	cp kadai/*.pdf $(BUILDDIR)/html/
+	# copy answer
+	cp -r answer $(BUILDDIR)/html/
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-pubhtml: latexpdf kadaipdf reportpdf
+pubhtml: latexpdf reportpdf
 	# convert samples to rst
 	./src2rst.py sample/chap*/*.f90
 	./src2rst.py sample/chap*/*.c
@@ -101,7 +103,6 @@ pubhtml: latexpdf kadaipdf reportpdf
 	cp report/report.pdf $(PUBLICDIR)/report/fortran-report.pdf
 	cp report/files.tar.gz $(PUBLICDIR)/report/files.tar.gz
 	# copy pdf
-	cp kadai/*.pdf $(PUBLICDIR)/
 	cp $(BUILDDIR)/latex/fortran.pdf $(PUBLICDIR)/fortran-resume.pdf
 	@echo
 	@echo "Pdf copied"
