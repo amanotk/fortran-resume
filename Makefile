@@ -97,6 +97,8 @@ pubhtml: latexpdf reportpdf
 	cp -r data $(PUBLICDIR)
 	cd $(PUBLICDIR)
 	tar -zcvf $(PUBLICDIR)/sample.tar.gz sample
+	# copy answer
+	cp -r answer $(PUBLICDIR)
 	@echo
 	@echo "Sample codes copied"
 	# copy report
