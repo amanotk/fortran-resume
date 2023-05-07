@@ -17,6 +17,7 @@
 \usepackage{textcomp}
 \usepackage[dvipdfmx]{hyperref}
 \usepackage{pxjahyper}
+\usepackage{float}
 \hypersetup{breaklinks=true,
             bookmarks=true,
             bookmarksnumbered=true,
@@ -141,9 +142,12 @@ $endif$
 
 % section
 \renewcommand{\thesection}{課題\arabic{section}}
-\renewcommand{\thesubsection}{\arabic{section}.\arabic{subsection}}
+\renewcommand{\thesubsection}{\hspace*{-1.0em}}
 
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% default figure placement
+\def\fps@figure{H}
 
 $if(listings)$
 \usepackage{listings}
