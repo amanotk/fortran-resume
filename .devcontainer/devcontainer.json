@@ -1,0 +1,21 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+  "hostRequirements": {
+    "cpus": 2
+  },
+  "waitFor": "onCreateCommand",
+  "updateContentCommand": "python3 -m pip install -r requirements.txt",
+  "postCreateCommand": "apt-get update && apt-get install -y gfortran",
+  "customizations": {
+    "codespaces": {
+      "openFiles": []
+    },
+    "vscode": {
+      "extensions": [
+        "ms-toolsai.jupyter",
+        "ms-python.python",
+        "fortran-lang.linter-gfortran",
+      ]
+    }
+  }
+}
