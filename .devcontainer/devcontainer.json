@@ -4,8 +4,8 @@
     "cpus": 2
   },
   "waitFor": "onCreateCommand",
-  "updateContentCommand": "python3 -m pip install -r requirements.txt",
-  "postCreateCommand": "apt-get update && apt-get install -y gfortran",
+  //"updateContentCommand": "python3 -m pip install -r .devcontainer/requirements.txt",
+  //"postCreateCommand": "/bin/bash .devcontainer/install.sh",
   "customizations": {
     "codespaces": {
       "openFiles": []
