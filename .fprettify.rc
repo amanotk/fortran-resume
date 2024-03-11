@@ -1,0 +1,7 @@
+indent=2
+whitespace=4
+whitespace-intrinsics=false
+strict-indent=true
+enable-decl=true
+case=[1,1,1,1]
+fortran=[f90,f08]
