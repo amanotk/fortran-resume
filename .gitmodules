@@ -7,3 +7,6 @@
 [submodule "sample"]
 	path = sample
 	url = git@github.com:amanotk/fortran-resume-sample.git
+[submodule "answer"]
+	path = answer
+	url = git@github.com:amanotk/fortran-resume-answer.git
