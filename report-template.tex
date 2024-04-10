@@ -73,12 +73,12 @@
 %\def\section{\clearpage\@startsection {section}{1}{\z@}{-3.5ex plus -1ex minus -.2ex}{2.3 ex plus .2ex}{\Large\bf}}
 
 % header
-\pagestyle{fancy}
+%\pagestyle{fancy}
 $if(title)$
-\lhead{$title$}
+%\lhead{$title$}
 $endif$
-\rhead{}
-\cfoot{}
+%\rhead{}
+%\cfoot{}
 
 \let\oldquote\quote
 \let\endoldquote\endquote
@@ -141,7 +141,8 @@ $endif$
 }
 
 % section
-\renewcommand{\thesection}{課題\arabic{section}}
+%\renewcommand{\thesection}{課題\arabic{section}}
+\renewcommand{\thesection}{課題}
 \renewcommand{\thesubsection}{\hspace*{-1.0em}}
 
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}

@@ -15,6 +15,12 @@ report.pdf : report.md report-template.tex
 	$(LATEX) $(LATEX_OPTS) $(basename $<).tex
 	$(DVIPDFM) $(DVIPDFM_FLAGS) $(basename $<).dvi
 
+report-old.pdf : report-old.md report-template.tex
+	$(PANDOC) $(PANDOC_FLAGS) --template report-template.tex $< -o $(basename $<).tex
+	$(LATEX) $(LATEX_OPTS) $(basename $<).tex
+	$(LATEX) $(LATEX_OPTS) $(basename $<).tex
+	$(DVIPDFM) $(DVIPDFM_FLAGS) $(basename $<).dvi
+
 tar:
 	tar -zcvf files.tar.gz files/*
 
