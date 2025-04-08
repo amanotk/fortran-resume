@@ -1,0 +1,29 @@
+#!/usr/bin/gnuplot
+
+set term pngcairo
+set output "kadai4_30.png"
+
+set palette gray negative
+set xrange[0:257]
+set yrange[0:150]
+plot "kadai4_1.dat" matrix with image title "rule 30"
+
+
+reset
+set term pngcairo
+set output "kadai4_90.png"
+
+set palette gray negative
+set xrange[0:257]
+set yrange[0:150]
+plot "kadai4_2.dat" matrix with image title "rule 90"
+
+
+reset
+set term pngcairo
+set output "kadai4_90_rand.png"
+
+set palette gray negative
+set xrange[0:257]
+set yrange[0:150]
+plot "kadai4_3.dat" matrix with image title "rule 90 (random)"

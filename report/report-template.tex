@@ -1,0 +1,204 @@
+\documentclass[10pt,a4j]{jarticle}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{framed}
+\usepackage{ascmac}
+\usepackage{fancybox}
+\usepackage{indent}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage[usenames]{color}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{wrapfig}
+\usepackage{xcolor}
+\usepackage{listings,jlisting}
+\usepackage{longtable}
+\usepackage{upquote}
+\usepackage{textcomp}
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper}
+\usepackage{float}
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            bookmarksnumbered=true,
+            bookmarksdepth=2,
+            colorlinks=true,
+            urlcolor=blue,
+            linkcolor=blue,
+            pdfborder={0 0 0}}
+\usepackage[top=30truemm,bottom=30truemm,left=25truemm,right=25truemm]{geometry}
+
+\urlstyle{same}
+\renewcommand{\href}[2]{#2\footnote{\url{#1}}}
+
+\def\tightlist{\itemsep1pt\parskip0pt\parsep0pt}
+\definecolor{fortranbg}{rgb}{1.0,1.0,0.9}
+\definecolor{shellbg}{rgb}{0.8,0.8,0.8}
+
+\lstset{
+  float=hbp,
+  frame=single,
+  frameround=tttt,
+  resetmargins=true,
+  backgroundcolor={\color[gray]{.85}},
+  keywordstyle=\color{blue},
+  basicstyle=\footnotesize\ttfamily,
+  commentstyle=\footnotesize\ttfamily,
+  extendedchars=true,
+  numbers=left,
+  numberstyle=\footnotesize\ttfamily,
+  numbersep=1.0em,
+  xleftmargin=2.0em,
+  xrightmargin=2.0em,
+  showstringspaces=false,
+}
+
+\renewcommand{\thelstnumber}{\arabic{lstnumber}}
+\renewcommand{\lstlistingname}{}
+
+\lstdefinestyle{f90}{
+  language=Fortran,
+  backgroundcolor=\color{fortranbg},
+}
+
+\lstdefinestyle{shell}{
+  language=bash,
+  backgroundcolor=\color{shellbg},
+}
+
+
+\renewcommand{\thelstnumber}{\arabic{lstnumber}:}
+
+\makeatletter
+%\def\section{\clearpage\@startsection {section}{1}{\z@}{-3.5ex plus -1ex minus -.2ex}{2.3 ex plus .2ex}{\Large\bf}}
+
+% header
+%\pagestyle{fancy}
+$if(title)$
+%\lhead{$title$}
+$endif$
+%\rhead{}
+%\cfoot{}
+
+\let\oldquote\quote
+\let\endoldquote\endquote
+\renewenvironment{quote}%
+{%
+\begin{screen}
+\oldquote
+{%
+}
+}{%
+\endoldquote
+\end{screen}%
+}
+
+\renewenvironment{itemize}%
+{%
+\begin{list}{$$\triangleright$$}
+{%
+  \setlength{\topsep}{0.5zh}
+  \setlength{\parskip}{0cm}
+  \setlength{\parsep}{0em}
+  \setlength{\itemsep}{0cm}
+  \setlength{\itemindent}{1zw}
+  \setlength{\leftmargin}{2zw}
+  \setlength{\rightmargin}{0zw}
+  \setlength{\labelsep}{0.5zw}
+  \setlength{\labelwidth}{1zw}
+  \setlength{\listparindent}{0zw}
+}
+}{%
+\end{list}%
+}
+
+\renewenvironment{enumerate}%
+{%
+\begin{list}{\labelenumi}
+{%
+  \usecounter{enumi}
+  \setlength{\topsep}{0.5zh}
+  \setlength{\parskip}{0cm}
+  \setlength{\parsep}{0em}
+  \setlength{\itemsep}{0cm}
+  \setlength{\itemindent}{1zw}
+  \setlength{\leftmargin}{2zw}
+  \setlength{\rightmargin}{0zw}
+  \setlength{\labelsep}{0.5zw}
+  \setlength{\labelwidth}{1zw}
+  \setlength{\listparindent}{0zw}
+}
+}{%
+\end{list}%
+}
+\renewcommand{\labelenumi}{[\theenumi]}
+
+% title
+\renewcommand{\maketitle}{
+\begin{center}
+  {\LARGE\textbf \@title{}}
+\end{center}
+}
+
+% section
+%\renewcommand{\thesection}{課題\arabic{section}}
+\renewcommand{\thesection}{課題}
+\renewcommand{\thesubsection}{\hspace*{-1.0em}}
+
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+
+% default figure placement
+\def\fps@figure{H}
+
+$if(listings)$
+\usepackage{listings}
+\newcommand{\passthrough}[1]{#1}
+$endif$
+
+\makeatother
+
+$for(header-includes)$
+$header-includes$
+$endfor$
+
+$if(title)$
+\title{$title$}
+$endif$
+\author{$for(author)$$author$$sep$ \and $endfor$}
+\date{\today}
+
+\begin{document}
+$if(title)$
+\maketitle
+\thispagestyle{empty}
+$endif$
+
+$for(include-before)$
+$include-before$
+
+$endfor$
+
+$body$
+
+$if(natbib)$
+$if(biblio-files)$
+$if(biblio-title)$
+$if(book-class)$
+\renewcommand\bibname{$biblio-title$}
+$else$
+\renewcommand\refname{$biblio-title$}
+$endif$
+$endif$
+\bibliography{$biblio-files$}
+
+$endif$
+$endif$
+$if(biblatex)$
+\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
+
+$endif$
+$for(include-after)$
+$include-after$
+
+$endfor$
+\end{document}
