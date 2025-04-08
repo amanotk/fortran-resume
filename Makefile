@@ -80,7 +80,7 @@ html:
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
-pubhtml: latexpdf reportpdf
+pubhtml:
 	# convert samples to rst
 	./src2rst.py sample/chap*/*.f90
 	./src2rst.py sample/chap*/*.c
@@ -101,13 +101,6 @@ pubhtml: latexpdf reportpdf
 	cp -r answer $(PUBLICDIR)
 	@echo
 	@echo "Sample codes copied"
-	# copy report
-	cp report/report.pdf $(PUBLICDIR)/report/fortran-report.pdf
-	cp report/files.tar.gz $(PUBLICDIR)/report/files.tar.gz
-	# copy pdf
-	cp $(BUILDDIR)/latex/fortran.pdf $(PUBLICDIR)/fortran-resume.pdf
-	@echo
-	@echo "Pdf copied"
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
