@@ -1,5 +1,5 @@
 ---
-title: "Fortran演習課題2: ソート"
+title: "Fortran演習: 提出課題2（ソート）"
 ---
 
 演習ではバブルソート(bubble sort)を扱ったが，クイックソート，マージソート，ヒープソートのいずれかのアルゴリズムを実装して，計算速度を測定・比較しよう．アルゴリズムについては各自で調べること．
@@ -47,13 +47,15 @@ my_sort     for N =    256 ... done
 $ ./a.out > kadai2.dat
 $ gnuplot
 gnuplot> set logscale xy
+gnuplot> set format x "10^{%L}"
+gnuplot> set format y "10^{%L}"
 gnuplot> set xlabel "data size"
 gnuplot> set ylabel "cpu ime"
-gnuplot> plot "kadai2.dat" using 1:2 title "bubble_sort" with lp
-gnuplot> replot "kadai2.dat" using 1:3 title "my_sort" with lp
+gnuplot> set key left top
+gnuplot> plot "kadai2.dat" using 1:2 title "bubble sort" with lp, \
+gnuplot>      "" using 1:3 title "my sort" with lp
 ```
 
-のようにすればよい．
+のようにすればよい．参考までに @fig-sort にはクイックソート，マージソート，ヒープソートとバブルソートの計算時間の比較の例を示す．
 
-
-![各種アルゴリズムによるソート時間計測の例 $\label{fig:sort}$](fig/kadai2.png){width=9cm}
+![各種アルゴリズムによるソート時間計測の例 $\label{fig:sort}$](fig/kadai2.png){#fig-sort width=12cm}
