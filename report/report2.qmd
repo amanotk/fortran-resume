@@ -4,7 +4,9 @@ title: "Fortran演習: 提出課題2（ソート）"
 
 演習ではバブルソート(bubble sort)を扱ったが，クイックソート，マージソート，ヒープソートのいずれかのアルゴリズムを実装して，計算速度を測定・比較しよう．アルゴリズムについては各自で調べること．
 
-具体的には `kadai2.f90` の最後に定義されているサブルーチン `my_sort`
+具体的には `kadai2.f90` [^1] の最後に定義されているサブルーチン `my_sort`
+
+[^1]: <https://github.com/amanotk/fortran-resume/blob/main/report/template/kadai2.f90>
 
 ```fortran
   subroutine my_sort(x)
