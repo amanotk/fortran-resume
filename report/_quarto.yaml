@@ -1,3 +1,8 @@
+#
+# PDFへの変換は以下のコマンドで
+#
+# $ quarto render --to typst
+#
 project:
   render:
     - report1.qmd

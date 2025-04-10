@@ -42,5 +42,5 @@ $$
 - 最も簡単な実装は再帰的サブルーチンもしくは関数(`recursive`)を用いて上記の関係を表現する方法であろう．
 - 曲線を表す点列の座標値を保持し，この値を順次更新しながら出力していけばよい．例えばUなら$y \rightarrow y + 1/2^{n+1}$，Lならば$x \rightarrow x - 1/2^{n+1}$など．
 
-![ヒルベルト曲線](fig/kadai5.png){#fig-hilbert width=75%}
+![ヒルベルト曲線](fig/kadai3.png){#fig-hilbert width=75%}
 

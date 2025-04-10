@@ -56,4 +56,4 @@ gnuplot> replot "kadai2.dat" using 1:3 title "my_sort" with lp
 のようにすればよい．
 
 
-![各種アルゴリズムによるソート時間計測の例 $\label{fig:sort}$](fig/kadai6.png){width=9cm}
+![各種アルゴリズムによるソート時間計測の例 $\label{fig:sort}$](fig/kadai2.png){width=9cm}
