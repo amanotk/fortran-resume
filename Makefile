@@ -101,6 +101,8 @@ pubhtml:
 	cp -r answer $(PUBLICDIR)
 	@echo
 	@echo "Sample codes copied"
+	# copy report
+	cp report/report*.pdf $(PUBLICDIR)/report
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
