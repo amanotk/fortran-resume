@@ -1,0 +1,46 @@
+---
+title: "Fortran演習課題3: ヒルベルト曲線"
+---
+
+2次元の単位正方形を $2^{n+1} \times 2^{n+1}$ の均等なセルに分割しよう．これらの全てのセルの中心を一度ずつ通る連続した交わることのない曲線を空間充填曲線(space-filling curve)と呼ぶ．ヒルベルト曲線はこの空間充填曲線の一つの例である．与えられた任意の非負整数 $n \geq 0$ についてヒルベルト曲線を生成するプログラムを作成し，例えば$n = 0, 1, 2, 3, 4, 5$のヒルベルト曲線を図示せよ．(点列をファイルに出力し，gnuplot等で図示すれば良い．）
+
+なお，2次元のヒルベルト曲線は @fig-hilbert のようにカタカナの「コ」の字およびそれを回転させた4つの図(LDR, URD, RUL, DLU)を基準とし，これらの曲線を再帰的に接続していったものになっている．$m$次のヒルベルト曲線を下付き添字 $_{m}$ で表すと，これは$m-1$次のヒルベルト曲線とそれらをつなぐ直線によって以下のように再帰的に定義することが出来る．
+
+$$
+\begin{matrix}
+\mathrm{LDR}_{m} &:
+\mathrm{DLU}_{m-1} \rightarrow & \mathrm{L} \rightarrow &
+\mathrm{LDR}_{m-1} \rightarrow & \mathrm{D} \rightarrow &
+\mathrm{LDR}_{m-1} \rightarrow & \mathrm{R} \rightarrow &
+\mathrm{URD}_{m-1}
+\\
+\mathrm{URD}_{m} &:
+\mathrm{RUL}_{m-1} \rightarrow & \mathrm{U} \rightarrow &
+\mathrm{URD}_{m-1} \rightarrow & \mathrm{R} \rightarrow &
+\mathrm{URD}_{m-1} \rightarrow & \mathrm{D} \rightarrow &
+\mathrm{LDR}_{m-1}
+\\
+\mathrm{RUL}_{m} &:
+\mathrm{URD}_{m-1} \rightarrow & \mathrm{R} \rightarrow &
+\mathrm{RUL}_{m-1} \rightarrow & \mathrm{U} \rightarrow &
+\mathrm{RUL}_{m-1} \rightarrow & \mathrm{L} \rightarrow &
+\mathrm{DLU}_{m-1}
+\\
+\mathrm{DLU}_{m} &:
+\mathrm{LDR}_{m-1} \rightarrow & \mathrm{D} \rightarrow &
+\mathrm{DLU}_{m-1} \rightarrow & \mathrm{L} \rightarrow &
+\mathrm{DLU}_{m-1} \rightarrow & \mathrm{U} \rightarrow &
+\mathrm{RUL}_{m-1}
+\end{matrix}
+$$
+
+ここでU, D, L, Rはそれぞれ上下左右に長さ$1/2^{n+1}$の直線を引くことを意味する．
+
+
+## ヒント {-}
+
+- 最も簡単な実装は再帰的サブルーチンもしくは関数(`recursive`)を用いて上記の関係を表現する方法であろう．
+- 曲線を表す点列の座標値を保持し，この値を順次更新しながら出力していけばよい．例えばUなら$y \rightarrow y + 1/2^{n+1}$，Lならば$x \rightarrow x - 1/2^{n+1}$など．
+
+![ヒルベルト曲線](fig/kadai5.png){#fig-hilbert width=75%}
+

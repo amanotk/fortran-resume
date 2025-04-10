@@ -1,0 +1,33 @@
+---
+title: "Fortran演習課題1: 連分数展開"
+---
+
+連分数展開
+$$
+\pi = a_1 +
+\frac{1}{\displaystyle a_2 +
+\frac{1}{\displaystyle a_3 + \cdots}}
+$$
+を用いて $\pi$ の有理数近似を求めるプログラムを作成せよ．  
+
+ここで，任意の正の実数$\zeta$に対する連分数展開は
+$$
+a_1 = [\zeta], \quad x_1 = \frac{1}{\zeta - a_1}
+$$
+を初期値として，漸化式
+$$
+a_n = [x_{n-1}], \quad x_n = \frac{1}{x_{n-1} - a_n}
+$$
+によって得られることを用いてよい．なお，$[x]$は$x$を超えない最大の整数を表す．
+
+このアルゴリズムで求められた$a_1, a_2, \ldots$から，以下の例（$n=3$までの例）のように表示すること．
+
+```
+$ ./a.out
+ Enter the number of terms :
+3 # ← キーボード入力
+ Approximation  :          333  /          106
+ Relative Error :    2.6489630167047660E-005
+```
+
+

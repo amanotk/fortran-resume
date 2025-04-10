@@ -1,0 +1,19 @@
+project:
+  render:
+    - report1.qmd
+    - report2.qmd
+    - report3.qmd
+    - report4.qmd
+format:
+  typst:
+    papersize: a4
+    mainfont: "Harano Aji Gothic"
+    font-paths: fonts
+    margin:
+      top: 2cm
+      bottom: 2cm
+      left: 2cm
+      right: 2cm
+lang: ja
+execute:
+  freeze: auto
