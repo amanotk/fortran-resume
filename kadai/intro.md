@@ -20,7 +20,7 @@
 
 演習では最初に30分から1時間程度で内容を簡単に解説する．演習で扱う内容は以下のウェブ
 
-`https://amanotk.github.io/fortran-resume-public/`
+`https://amanotk.github.io/fortran-resume/`
 
 にまとめてあるので各自ウェブブラウザで参照して欲しい．このページは随時更新される可能性があるので常に最新版を参照すること．
 

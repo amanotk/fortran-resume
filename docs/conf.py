@@ -58,7 +58,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Fortran演習"
-copyright = "2025, Takanobu Amano"
+copyright = "2026, Takanobu Amano"
 author = "Takanobu Amano"
 
 # The version info for the project you're documenting, acts as replacement for

@@ -9,7 +9,6 @@ SPHINXBUILD   ?= $(UV) run sphinx-build
 PAPER         =
 SOURCEDIR     = docs
 BUILDDIR      = _build
-PUBLICDIR     = public
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -75,28 +74,6 @@ html:
 	cp -r answer $(BUILDDIR)/html/
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
-
-pubhtml:
-	trap 'rm -f $(SOURCEDIR)/_templates/layout.html' EXIT; \
-	cp $(SOURCEDIR)/_templates/layout-analytics.html $(SOURCEDIR)/_templates/layout.html; \
-	$(PYTHON) src2rst.py sample/chap*/*.f90; \
-	$(PYTHON) src2rst.py sample/chap*/*.c; \
-	$(PYTHON) src2rst.py sample/chap*/*.py; \
-	$(PYTHON) src2rst.py answer/chap*/*.f90; \
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
-	@echo
-	@echo "Build finished. The HTML pages are in $(PUBLICDIR)."
-	# copy sample code
-	cp -r sample $(PUBLICDIR)
-	cp -r data $(PUBLICDIR)
-	cd $(PUBLICDIR)
-	tar -zcvf $(PUBLICDIR)/sample.tar.gz sample
-	# copy answer
-	cp -r answer $(PUBLICDIR)
-	@echo
-	@echo "Sample codes copied"
-	# copy report
-	cp report/report*.pdf $(PUBLICDIR)/report
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml

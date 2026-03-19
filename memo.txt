@@ -1,11 +1,8 @@
 * html
 make html
 
-# html with Google-Analytics code
-make pubhtml
-
-public ディレクトリに出力
-=> gitのsubmoduleで公開
+_build/html に出力
+=> GitHub Actions から GitHub Pages に公開
 
 # pdf
 make latexpdf
@@ -14,4 +11,5 @@ pygmentsのlexers/fortran.pyを少しいじらないと"1.0_8"のような数値
 含まれるコードがFotranコードと認識されないバグがあるので注意．
 
 # docutils問題
-docutils-0.17.1以下でないとsphinx_rtd_themeが対応していない（レンダリングがおかしくなる）ので注意．
+古い sphinx_rtd_theme と docutils の組み合わせではレンダリングが崩れることがあったので，
+現在は uv.lock で固定した組み合わせを使う．

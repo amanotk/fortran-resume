@@ -10,11 +10,6 @@ $ uv run make html
 
 GitHub Pages への公開はこのリポジトリの GitHub Actions から行う．
 
-```
-$ uv run make pubhtml
-```
-でpublicにhtmlが作成される．必要な場合の手動出力用．
-
 
 依存パッケージのバージョンは `pyproject.toml` と `uv.lock` で固定する．
 
