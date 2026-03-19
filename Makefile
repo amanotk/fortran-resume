@@ -3,15 +3,12 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
+UV            ?= uv
+PYTHON        ?= $(UV) run python
+SPHINXBUILD   ?= $(UV) run sphinx-build
 PAPER         =
 BUILDDIR      = _build
 PUBLICDIR     = public
-
-# User-friendly check for sphinx-build
-ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
-$(error The '$(SPHINXBUILD)' command was not found. Make sure you have Sphinx installed, then set the SPHINXBUILD environment variable to point to the full path of the '$(SPHINXBUILD)' executable. Alternatively you can add the directory with the executable to your PATH. If you don't have Sphinx installed, grab it from http://sphinx-doc.org/)
-endif
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -52,6 +49,7 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 	make -C kadai clean
+	rm -f _templates/layout.html
 
 #kadaipdf:
 #	make -C kadai
@@ -60,16 +58,13 @@ reportpdf:
 	make -C report
 
 html:
-	# convert samples to rst
-	./src2rst.py sample/chap*/*.f90
-	./src2rst.py sample/chap*/*.c
-	./src2rst.py sample/chap*/*.py
-	# convert answers to rst
-	./src2rst.py answer/chap*/*.f90
-	# use layout.html for reset css
+	trap 'rm -f _templates/layout.html' EXIT; \
+	cp _templates/layout-resetcss.html _templates/layout.html; \
+	$(PYTHON) src2rst.py sample/chap*/*.f90; \
+	$(PYTHON) src2rst.py sample/chap*/*.c; \
+	$(PYTHON) src2rst.py sample/chap*/*.py; \
+	$(PYTHON) src2rst.py answer/chap*/*.f90; \
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
-	cp _templates/layout-resetcss.html _templates/layout.html
-	rm _templates/layout.html
 	# copy sample code
 	cp -r sample $(BUILDDIR)/html/
 	cp -r data $(BUILDDIR)/html/
@@ -81,15 +76,13 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 pubhtml:
-	# convert samples to rst
-	./src2rst.py sample/chap*/*.f90
-	./src2rst.py sample/chap*/*.c
-	./src2rst.py sample/chap*/*.py
-	# use layout.html for reset css and google analytics
-	cp _templates/layout-analytics.html _templates/layout.html
+	trap 'rm -f _templates/layout.html' EXIT; \
+	cp _templates/layout-analytics.html _templates/layout.html; \
+	$(PYTHON) src2rst.py sample/chap*/*.f90; \
+	$(PYTHON) src2rst.py sample/chap*/*.c; \
+	$(PYTHON) src2rst.py sample/chap*/*.py; \
+	$(PYTHON) src2rst.py answer/chap*/*.f90; \
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(PUBLICDIR)
-	# remove layout.html
-	rm _templates/layout.html
 	@echo
 	@echo "Build finished. The HTML pages are in $(PUBLICDIR)."
 	# copy sample code

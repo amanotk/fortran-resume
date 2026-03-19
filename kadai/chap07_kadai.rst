@@ -3,16 +3,16 @@
 第7章 演習課題
 ==============
 
-..  `課題PDFダウンロード <chap07_kadai.pdf>`_
+..  `課題PDFダウンロード </chap07_kadai.pdf>`_
 
 .. seealso::
 
-  - :doc:`課題2 解答例 <chap07_kadai2_f90>`
-  - :doc:`課題3 解答例 <chap07_kadai3_f90>`
-  - :doc:`課題4 解答例 <chap07_kadai4_f90>`
-  - :doc:`課題5 解答例 <chap07_kadai5_f90>`
-  - :doc:`課題6 解答例 <chap07_kadai6_f90>`
-  - :doc:`課題7 解答例 <chap07_kadai7_f90>`
+  - :doc:`課題2 解答例 </chap07_kadai2_f90>`
+  - :doc:`課題3 解答例 </chap07_kadai3_f90>`
+  - :doc:`課題4 解答例 </chap07_kadai4_f90>`
+  - :doc:`課題5 解答例 </chap07_kadai5_f90>`
+  - :doc:`課題6 解答例 </chap07_kadai6_f90>`
+  - :doc:`課題7 解答例 </chap07_kadai7_f90>`
 
 
 課題1
@@ -85,7 +85,7 @@
        85.000000000000000               80
        95.000000000000000               15
 
-なお `score2.dat <data/score2.dat>`_ の形式は :ref:`5章の課題3 <score_format>` の `score1.dat <data/score1.dat>`_ と同じであるが，データは異なるものになっている．
+なお `score2.dat <data/score2.dat>`_ の形式は `score1.dat <data/score1.dat>`_ と同じであるが，データは異なるものになっている．
 
 同様に範囲外のデータを含む `score3.dat <data/score3.dat>`_ を読みこませると
 

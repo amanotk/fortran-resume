@@ -7,3 +7,5 @@ _*
 *.out
 *.dvi
 *.tex
+!.github/
+!.github/**

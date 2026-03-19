@@ -3,12 +3,12 @@
 第10章 演習課題
 ===============
 
-..  `課題PDFダウンロード <chap10_kadai.pdf>`_
+..  `課題PDFダウンロード </chap10_kadai.pdf>`_
 
 .. seealso::
 
-  - :doc:`課題2 解答例 <chap10_kadai2_f90>`
-  - :doc:`課題3 解答例 <chap10_kadai3_f90>`
+  - :doc:`課題2 解答例 </chap10_kadai2_f90>`
+  - :doc:`課題3 解答例 </chap10_kadai3_f90>`
 
 
 課題1

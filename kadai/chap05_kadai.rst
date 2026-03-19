@@ -3,16 +3,16 @@
 第5章 演習課題
 ==============
 
-..  `課題PDFダウンロード <chap05_kadai.pdf>`_
+..  `課題PDFダウンロード </chap05_kadai.pdf>`_
 
 .. seealso::
 
-  - :doc:`課題2 解答例 <chap05_kadai2_f90>`
-  - :doc:`課題3 解答例 <chap05_kadai3_f90>`
-  - :doc:`課題4 解答例 <chap05_kadai4_f90>`
-  - :doc:`課題5 解答例 <chap05_kadai5_f90>`
-  - :doc:`課題6 解答例 <chap05_kadai6_f90>`
-  - :doc:`課題7 解答例 <chap05_kadai7_f90>`
+  - :doc:`課題2 解答例 </chap05_kadai2_f90>`
+  - :doc:`課題3 解答例 </chap05_kadai3_f90>`
+  - :doc:`課題4 解答例 </chap05_kadai4_f90>`
+  - :doc:`課題5 解答例 </chap05_kadai5_f90>`
+  - :doc:`課題6 解答例 </chap05_kadai6_f90>`
+  - :doc:`課題7 解答例 </chap05_kadai7_f90>`
 
 
 課題1
@@ -63,7 +63,7 @@
    Average            :    46.399999999999999
    Standard deviation :    25.115201240152015
 
-なおデータファイルには，1行目にデータ数 :math:`N` ，それ以降に各データ :math:`x_i` が記述されているので，まずはデータ数を読み込み配列のメモリを ``allocate`` した後に各データを読み込めば良い．( :doc:`sample3.f90 <chap05_sample3_f90>` を参照せよ．)
+なおデータファイルには，1行目にデータ数 :math:`N` ，それ以降に各データ :math:`x_i` が記述されているので，まずはデータ数を読み込み配列のメモリを ``allocate`` した後に各データを読み込めば良い．( :doc:`sample3.f90 </chap05_sample3_f90>` を参照せよ．)
 
 
 課題4

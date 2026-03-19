@@ -227,7 +227,7 @@
 
 .. literalinclude:: sample/chap05/sample5.dat
   :language: bash
-  :lines: 14-25
+  :lines: 14-23
   :lineno-match:
   :caption: sample5.dat 抜粋
 

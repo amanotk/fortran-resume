@@ -3,15 +3,15 @@
 第8章 演習課題
 ==============
 
-..  `課題PDFダウンロード <chap08_kadai.pdf>`_
+..  `課題PDFダウンロード </chap08_kadai.pdf>`_
 
 .. seealso::
 
-  - :doc:`課題2 解答例 <chap08_kadai2_f90>`
-  - :doc:`課題3 解答例 <chap08_kadai3_f90>`
-  - :doc:`課題4 解答例 <chap08_kadai4_f90>`
-  - :doc:`課題5 解答例 <chap08_kadai5_f90>`
-  - :doc:`課題6 解答例 <chap08_kadai6_f90>`
+  - :doc:`課題2 解答例 </chap08_kadai2_f90>`
+  - :doc:`課題3 解答例 </chap08_kadai3_f90>`
+  - :doc:`課題4 解答例 </chap08_kadai4_f90>`
+  - :doc:`課題5 解答例 </chap08_kadai5_f90>`
+  - :doc:`課題6 解答例 </chap08_kadai6_f90>`
 
 
 課題1
@@ -69,7 +69,7 @@ Newton法では関数の微分値を解析的に与えて用いるが，割線�
 
 結果は以下の例ようになるであろう．
 
-.. figure:: figure/rootfind.png
+.. figure:: /figure/rootfind.png
   :align: center
   :width: 75%
 
@@ -88,7 +88,7 @@ Newton法では関数の微分値を解析的に与えて用いるが，割線�
 
 例として :math:`f(x) = \dfrac{4}{\pi} \dfrac{1}{1 + x^2}` について誤差をプロットすると以下のようになるであろう．
 
-.. figure:: figure/integration.png
+.. figure:: /figure/integration.png
   :align: center
   :width: 75%
 
@@ -124,7 +124,7 @@ Newton法では関数の微分値を解析的に与えて用いるが，割線�
 
 を得る．即ち， :math:`G^{-1} (x)` を解析的に求めることができれば，一様乱数 :math:`x` を用いて必要な確率分布 :math:`g(y)` に従う乱数を作ることができる．（以下の図を参照）
 
-.. figure:: figure/inversefunc.png
+.. figure:: /figure/inversefunc.png
   :align: center
   :width: 480px
 
@@ -140,7 +140,7 @@ Newton法では関数の微分値を解析的に与えて用いるが，割線�
 
 以下は60000個の乱数を発生させた場合のヒストグラムの例である．
 
-.. figure:: figure/expdist.png
+.. figure:: /figure/expdist.png
   :align: center
   :width: 480px
 

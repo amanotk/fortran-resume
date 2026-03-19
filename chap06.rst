@@ -328,7 +328,7 @@ Fortranの ``unformatted`` のバイナリデータは一般にはC言語の ``f
 
 文字型変数の宣言は
 
-::
+.. code-block:: text
 
       character(len=長さ) :: 変数名 = 初期化文字列
 

@@ -3,16 +3,16 @@
 第4章 演習課題
 ==============
 
-..  `課題PDFダウンロード <chap04_kadai.pdf>`_
+..  `課題PDFダウンロード </chap04_kadai.pdf>`_
 
 .. seealso::
 
-  - :doc:`課題2 解答例 <chap04_kadai2_f90>`
-  - :doc:`課題3 解答例 <chap04_kadai3_f90>`
-  - :doc:`課題4 解答例 <chap04_kadai4_f90>`
-  - :doc:`課題5 解答例 <chap04_kadai5_f90>`
-  - :doc:`課題6 解答例 <chap04_kadai6_f90>`
-  - :doc:`課題7 解答例 <chap04_kadai7_f90>`
+  - :doc:`課題2 解答例 </chap04_kadai2_f90>`
+  - :doc:`課題3 解答例 </chap04_kadai3_f90>`
+  - :doc:`課題4 解答例 </chap04_kadai4_f90>`
+  - :doc:`課題5 解答例 </chap04_kadai5_f90>`
+  - :doc:`課題6 解答例 </chap04_kadai6_f90>`
+  - :doc:`課題7 解答例 </chap04_kadai7_f90>`
 
 
 課題1
@@ -167,7 +167,7 @@ gnuplotでは
 
 で定義される数列 :math:`p_n (n=0, 1, \ldots)` を考える．初期値 :math:`p_0 = 0.9` から数列を生成し，そのうち :math:`n=100, \ldots, 200` までを :math:`\alpha` の関数として :math:`1 < \alpha < 3` の範囲でプロットせよ． :math:`\alpha` を :math:`10^{-3}` 刻みで変えながらプロットすると結果は以下のようになるだろう．
 
-.. figure:: figure/logistic.png
+.. figure:: /figure/logistic.png
     :align: center
     :scale: 75%
 
