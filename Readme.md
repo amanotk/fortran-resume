@@ -18,6 +18,8 @@ $ uv run make pubhtml
 
 依存パッケージのバージョンは `pyproject.toml` と `uv.lock` で固定する．
 
+Sphinx のソースは `docs/` 以下に置いている．
+
 
 ## メモ
 

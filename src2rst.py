@@ -8,7 +8,9 @@ $Id: src2rst.py,v 1dae6da0fb4f 2019/01/15 09:18:06 amano $
 
 import os
 import sys
-import string
+
+
+OUTPUT_DIR = "docs"
 
 template = """\
 .. -*- coding: utf-8 -*-
@@ -31,7 +33,10 @@ def convert2rst(src):
     sample, chapter, filename = src.split(os.sep)
     name, ext = filename.split(".")
     caption = os.sep.join([chapter, filename])
-    rstfile = "{chapter}_{name}_{ext}.rst".format(chapter=chapter, name=name, ext=ext)
+    rstfile = os.path.join(
+        OUTPUT_DIR,
+        "{chapter}_{name}_{ext}.rst".format(chapter=chapter, name=name, ext=ext),
+    )
 
     # automatically select highlighting language
     if ext == "f" or ext == "f90" or ext == "f95":
@@ -43,9 +48,8 @@ def convert2rst(src):
     else:
         raise RuntimeError("Error: language cannot be estimated")
 
-    fp = open(rstfile, "w")
-    fp.write(template.format(src=src, caption=caption, language=language))
-    fp.close()
+    with open(rstfile, "w") as fp:
+        fp.write(template.format(src=src, caption=caption, language=language))
 
 
 if __name__ == "__main__":

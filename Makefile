@@ -7,15 +7,16 @@ UV            ?= uv
 PYTHON        ?= $(UV) run python
 SPHINXBUILD   ?= $(UV) run sphinx-build
 PAPER         =
+SOURCEDIR     = docs
 BUILDDIR      = _build
 PUBLICDIR     = public
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
-ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
 # the i18n builder cannot share the environment and doctrees with the others
-I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
+I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SOURCEDIR)
 
 .PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest coverage gettext
 
@@ -49,7 +50,7 @@ help:
 clean:
 	rm -rf $(BUILDDIR)/*
 	make -C kadai clean
-	rm -f _templates/layout.html
+	rm -f $(SOURCEDIR)/_templates/layout.html
 
 #kadaipdf:
 #	make -C kadai
@@ -58,8 +59,8 @@ reportpdf:
 	make -C report
 
 html:
-	trap 'rm -f _templates/layout.html' EXIT; \
-	cp _templates/layout-resetcss.html _templates/layout.html; \
+	trap 'rm -f $(SOURCEDIR)/_templates/layout.html' EXIT; \
+	cp $(SOURCEDIR)/_templates/layout-resetcss.html $(SOURCEDIR)/_templates/layout.html; \
 	$(PYTHON) src2rst.py sample/chap*/*.f90; \
 	$(PYTHON) src2rst.py sample/chap*/*.c; \
 	$(PYTHON) src2rst.py sample/chap*/*.py; \
@@ -76,8 +77,8 @@ html:
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
 
 pubhtml:
-	trap 'rm -f _templates/layout.html' EXIT; \
-	cp _templates/layout-analytics.html _templates/layout.html; \
+	trap 'rm -f $(SOURCEDIR)/_templates/layout.html' EXIT; \
+	cp $(SOURCEDIR)/_templates/layout-analytics.html $(SOURCEDIR)/_templates/layout.html; \
 	$(PYTHON) src2rst.py sample/chap*/*.f90; \
 	$(PYTHON) src2rst.py sample/chap*/*.c; \
 	$(PYTHON) src2rst.py sample/chap*/*.py; \
