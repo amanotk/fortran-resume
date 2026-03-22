@@ -35,8 +35,17 @@ jobs:
       - name: Install dependencies
         run: uv sync --frozen
 
+      - name: Setup Quarto
+        uses: quarto-dev/setup-action@v2
+
+      - name: Build report PDFs
+        run: quarto render report
+
       - name: Build HTML
         run: uv run make clean html
+
+      - name: Copy report PDFs
+        run: mkdir -p _build/html/report && cp report/*.pdf _build/html/report/
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
