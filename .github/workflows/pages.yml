@@ -36,7 +36,7 @@ jobs:
         run: uv sync --frozen
 
       - name: Setup Quarto
-        uses: quarto-dev/setup-action@v2
+        uses: quarto-dev/quarto-actions/setup@v2
 
       - name: Build report PDFs
         run: quarto render report
