@@ -1,5 +1,4 @@
 module dimensions
-  use iso_fortran_env, only: dp => real64
   use ieee_arithmetic, only: ieee_value, ieee_quiet_nan, ieee_is_nan
   implicit none
   private
@@ -11,7 +10,7 @@ module dimensions
   integer, parameter :: NUM_DIMS = 3
 
   type :: quantity_t
-    real(dp) :: value = 0.0_dp
+    real(8) :: value = 0.0_8
     integer :: dims(NUM_DIMS) = 0
   contains
     procedure :: init => quantity_init
@@ -50,13 +49,13 @@ contains
 
   function nan_quantity() result(res)
     type(quantity_t) :: res
-    res%value = ieee_value(0.0_dp, ieee_quiet_nan)
+    res%value = ieee_value(0.0_8, ieee_quiet_nan)
     res%dims = 0
   end function nan_quantity
 
   subroutine quantity_init(this, val, unit_str)
     class(quantity_t), intent(out) :: this
-    real(dp), intent(in) :: val
+    real(8), intent(in) :: val
     character(*), intent(in) :: unit_str
 
     this%value = val
@@ -77,7 +76,7 @@ contains
   end subroutine quantity_init
 
   function quantity_from_value_unit(val, unit_str) result(res)
-    real(dp), intent(in) :: val
+    real(8), intent(in) :: val
     character(*), intent(in) :: unit_str
     type(quantity_t) :: res
 
@@ -123,7 +122,7 @@ contains
   end function quantity_multiply
 
   function quantity_multiply_scalar_left(scalar, q) result(res)
-    real(dp), intent(in) :: scalar
+    real(8), intent(in) :: scalar
     type(quantity_t), intent(in) :: q
     type(quantity_t) :: res
 
@@ -136,7 +135,7 @@ contains
 
   function quantity_multiply_scalar_right(q, scalar) result(res)
     type(quantity_t), intent(in) :: q
-    real(dp), intent(in) :: scalar
+    real(8), intent(in) :: scalar
     type(quantity_t) :: res
 
     ! TODO: スカラー倍（次元は変わらない）
@@ -160,7 +159,7 @@ contains
 
   function quantity_divide_scalar(q, scalar) result(res)
     type(quantity_t), intent(in) :: q
-    real(dp), intent(in) :: scalar
+    real(8), intent(in) :: scalar
     type(quantity_t) :: res
 
     ! TODO: スカラーで割る（次元は変わらない）
