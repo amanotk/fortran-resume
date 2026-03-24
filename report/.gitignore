@@ -7,6 +7,7 @@ _*
 *.out
 *.dvi
 *.tex
+*.pdf
 *.tar.gz
 *.mod
 *.dat
