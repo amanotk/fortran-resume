@@ -47,6 +47,11 @@ jobs:
       - name: Copy report PDFs
         run: mkdir -p _build/html/report && cp report/*.pdf _build/html/report/
 
+      - name: Package report 5 template
+        run: |
+          mkdir -p _build/html/template
+          tar -zcf _build/html/template/report5.tar.gz -C report/template report5
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 

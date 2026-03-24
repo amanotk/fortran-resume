@@ -9,6 +9,7 @@ project:
     - report2.qmd
     - report3.qmd
     - report4.qmd
+    - report5.qmd
 format:
   typst:
     papersize: a4
