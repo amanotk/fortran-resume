@@ -4,18 +4,18 @@ title: "Fortran演習: 提出課題5"
 
 ::: {.callout-tip}
 本課題は **AIコーディングエージェント** の使用方法習得を意図して用意したものである．
-例えば，演習で用いている Codespaces でインストールされているコーディングエージェントとしては以下がある．
-
-- GitHub Copilot CLI（ `copilot` コマンド）
-- Claude Code（ `claude` コマンド）
-- Codex CLI（ `codex` コマンド）
-- OpenCode（ `opencode` コマンド）
+例えば，演習で用いている環境 （[https://github.com/chibutsu-utokyo/debian](https://github.com/chibutsu-utokyo/debian)） であれば
+GitHub Copilot CLI（ `copilot` コマンド），OpenCode（ `opencode` コマンド），Codex CLI（ `codex` コマンド），Claude Code（ `claude` コマンド）
+などのインストールスクリプトが用意されている．
 
 GitHub Educationに登録することでGitHub Copilotの多くのモデルを無料で利用できるようになるので，ぜひ登録しよう．
 ほとんどのモデルに使用回数制限があるが，例えば GPT-5 mini などは制限なく利用することができる．
-GitHub Copilotが提供しているモデルはOpenCodeからも利用することができる．
-Claude CodeやCodex CLIは有料サービスだが，オープンソースモデルと組み合わせて無料で使う方法もある．
-分からない人は適宜質問をしてほしい．
+
+OpenCodeには無料で利用できるモデルがいくつか用意されている．また，GitHub Copilotが提供しているモデルを呼び出して利用することもできる．
+
+Claude CodeやCodex CLIは有料サービスだが，Ollama Cloudのアカウントを作成してオープンソースのAIモデルと組み合わせれば，使用量の制限はあるものの無料で使うことができる．
+
+分からないことがあれば適宜質問をしてほしい．
 :::
 
 
