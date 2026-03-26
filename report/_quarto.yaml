@@ -13,8 +13,11 @@ project:
 format:
   typst:
     papersize: a4
+    font-paths:
+      - fonts
     mainfont: "Harano Aji Gothic"
-    font-paths: fonts
+    sansfont: "Harano Aji Gothic"
+    monofont: "Harano Aji Gothic"
     margin:
       top: 2cm
       bottom: 2cm

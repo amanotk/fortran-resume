@@ -40,6 +40,12 @@ jobs:
         with:
           version: 1.6.40
 
+      - name: Install bundled report fonts
+        run: |
+          mkdir -p ~/.local/share/fonts/report
+          cp report/fonts/* ~/.local/share/fonts/report/
+          fc-cache -f
+
       - name: Build report PDFs
         run: quarto render report
 
