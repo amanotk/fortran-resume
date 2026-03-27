@@ -1,4 +1,4 @@
-program kadai2
+program assignment2
   implicit none
 
   integer, parameter :: power = 6
@@ -222,4 +222,4 @@ contains
 
   end subroutine my_sort
 
-end program kadai2
+end program assignment2

@@ -27,17 +27,17 @@ Claude CodeやCodex CLIは有料サービスだが，Ollama Cloudのアカウン
 ## (0) 準備
 ### プロジェクト構成
 
-以下のコマンドで `report5.tar.gz` をダウンロードし，展開せよ：
+以下のコマンドで `assignment5.tar.gz` をダウンロードし，展開せよ：
 
 ```bash
-$ curl -L -o report5.tar.gz https://amanotk.github.io/fortran-resume/template/report5.tar.gz
-$ tar -xzf report5.tar.gz
+$ curl -L -o assignment5.tar.gz https://amanotk.github.io/fortran-resume/template/assignment5.tar.gz
+$ tar -xzf assignment5.tar.gz
 ```
 
 展開後の構成：
 
 ```
-report5/
+assignment5/
 ├── dimensions.f90    # モジュールの実装
 ├── main.f90          # テストプログラム
 └── build_and_test.sh # ビルド＆テスト実行

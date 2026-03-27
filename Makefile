@@ -55,7 +55,7 @@ clean:
 #	make -C kadai
 
 reportpdf:
-	make -C report
+	make -C assignment
 
 html:
 	trap 'rm -f $(SOURCEDIR)/_templates/layout.html' EXIT; \

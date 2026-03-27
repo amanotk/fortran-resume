@@ -43,22 +43,22 @@ jobs:
       - name: Install bundled report fonts
         run: |
           mkdir -p ~/.local/share/fonts/report
-          cp report/fonts/* ~/.local/share/fonts/report/
+          cp assignment/fonts/* ~/.local/share/fonts/report/
           fc-cache -f
 
       - name: Build report PDFs
-        run: quarto render report
+        run: quarto render assignment
 
       - name: Build HTML
         run: uv run make clean html
 
       - name: Copy report PDFs
-        run: mkdir -p _build/html/report && cp report/*.pdf _build/html/report/
+        run: mkdir -p _build/html/assignment && cp assignment/*.pdf _build/html/assignment/
 
       - name: Package report 5 template
         run: |
           mkdir -p _build/html/template
-          tar -zcf _build/html/template/report5.tar.gz -C report/template report5
+          tar -zcf _build/html/template/assignment5.tar.gz -C assignment/template assignment5
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
