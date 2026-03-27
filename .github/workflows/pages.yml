@@ -60,6 +60,11 @@ jobs:
           mkdir -p _build/html/template
           tar -zcf _build/html/template/assignment5.tar.gz -C assignment/template assignment5
 
+      - name: Publish assignment 2 template
+        run: |
+          mkdir -p _build/html/template
+          cp assignment/template/assignment2.f90 _build/html/template/assignment2.f90
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
