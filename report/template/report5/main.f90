@@ -13,7 +13,6 @@ program test_dimensions
   call test_scalar_divide()
   call test_dimensionless()
   call test_dimension_mismatch()
-  call test_prefix_units()
 
   print *, ""
   print *, "=============================="
@@ -202,44 +201,6 @@ contains
     b = quantity(2.0_8, "m")
     c = a - b
     call check(is_nan(c), "5 s - 2 m = NaN")
-  end subroutine
-
-  subroutine test_prefix_units()
-    type(quantity_t) :: a, b, c
-
-    print *, ""
-    print *, "--- Prefix units ---"
-
-    a = quantity(1000.0_8, "mm")
-    b = quantity(1.0_8, "m")
-    c = a + b
-    call check(c%value == 2.0_8, "1000 mm + 1 m = 2 m")
-    call check(all(c%dims == [1, 0, 0]), "prefix addition: dims")
-
-    a = quantity(2.0_8, "km")
-    b = quantity(500.0_8, "m")
-    c = a + b
-    call check(c%value == 2.5_8, "2 km + 500 m = 2.5 km")
-
-    a = quantity(500.0_8, "g")
-    b = quantity(1.0_8, "kg")
-    c = a + b
-    call check(c%value == 1.5_8, "500 g + 1 kg = 1.5 kg")
-    call check(all(c%dims == [0, 1, 0]), "prefix mass: dims")
-
-    a = quantity(1000.0_8, "ms")
-    b = quantity(1.0_8, "s")
-    c = a + b
-    call check(c%value == 2.0_8, "1000 ms + 1 s = 2 s")
-
-    a = quantity(1.0_8, "km/ms")
-    call check(all(a%dims == [1, 0, -1]), "km/ms: velocity dims")
-    call check(a%value == 1.0e6_8, "1 km/ms = 1.0e6 m/s")
-
-    a = quantity(3.0_8, "um")
-    b = quantity(2.0_8, "mm")
-    c = a * b
-    call check(all(c%dims == [2, 0, 0]), "prefix multiplication: dims")
   end subroutine
 
 end program test_dimensions

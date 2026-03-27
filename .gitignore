@@ -9,3 +9,4 @@ _*
 *.tex
 !.github/
 !.github/**
+*.mod

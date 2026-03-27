@@ -36,7 +36,8 @@ module dimensions
 
   interface operator(/)
     module procedure :: quantity_divide
-    module procedure :: quantity_divide_scalar
+    module procedure :: quantity_divide_scalar_left
+    module procedure :: quantity_divide_scalar_right
   end interface operator(/)
 
 contains
@@ -44,13 +45,17 @@ contains
   function is_nan(q) result(res)
     type(quantity_t), intent(in) :: q
     logical :: res
-    res = ieee_is_nan(q%value)
+
+    res = .false.
+
   end function is_nan
 
   function nan_quantity() result(res)
     type(quantity_t) :: res
-    res%value = ieee_value(0.0_8, ieee_quiet_nan)
+
+    res%value = 0.0_8
     res%dims = 0
+
   end function nan_quantity
 
   subroutine quantity_init(this, val, unit_str)
@@ -60,18 +65,6 @@ contains
 
     this%value = val
     this%dims = 0
-
-    ! TODO: unit_str をパースして dims を設定
-    ! ヒント: index(), scan(), adjustl(), trim() が有用
-    ! 
-    ! サポートする形式:
-    !   "m"        -> [1, 0, 0]
-    !   "kg"       -> [0, 1, 0]
-    !   "s"        -> [0, 0, 1]
-    !   "m/s"      -> [1, 0, -1]
-    !   "m^2"      -> [2, 0, 0]
-    !   "kg*m/s^2" -> [1, 1, -2]
-    !   "" or "1"  -> [0, 0, 0]
 
   end subroutine quantity_init
 
@@ -87,12 +80,8 @@ contains
     type(quantity_t), intent(in) :: a, b
     type(quantity_t) :: res
 
-    ! TODO: 次元が同じかチェック
-    ! 異なる場合は NaN を返す
-    ! 同じなら値を足す
-
-    res%value = a%value + b%value
-    res%dims = a%dims
+    res%value = 0.0_8
+    res%dims = 0
 
   end function quantity_add
 
@@ -100,12 +89,8 @@ contains
     type(quantity_t), intent(in) :: a, b
     type(quantity_t) :: res
 
-    ! TODO: 次元が同じかチェック
-    ! 異なる場合は NaN を返す
-    ! 同じなら値を引く
-
-    res%value = a%value - b%value
-    res%dims = a%dims
+    res%value = 0.0_8
+    res%dims = 0
 
   end function quantity_subtract
 
@@ -113,11 +98,8 @@ contains
     type(quantity_t), intent(in) :: a, b
     type(quantity_t) :: res
 
-    ! TODO: 値を掛ける
-    ! TODO: 次元を足す
-
-    res%value = a%value * b%value
-    res%dims = a%dims + b%dims
+    res%value = 0.0_8
+    res%dims = 0
 
   end function quantity_multiply
 
@@ -126,10 +108,8 @@ contains
     type(quantity_t), intent(in) :: q
     type(quantity_t) :: res
 
-    ! TODO: スカラー倍（次元は変わらない）
-
-    res%value = scalar * q%value
-    res%dims = q%dims
+    res%value = 0.0_8
+    res%dims = 0
 
   end function quantity_multiply_scalar_left
 
@@ -138,10 +118,8 @@ contains
     real(8), intent(in) :: scalar
     type(quantity_t) :: res
 
-    ! TODO: スカラー倍（次元は変わらない）
-
-    res%value = q%value * scalar
-    res%dims = q%dims
+    res%value = 0.0_8
+    res%dims = 0
 
   end function quantity_multiply_scalar_right
 
@@ -149,24 +127,29 @@ contains
     type(quantity_t), intent(in) :: a, b
     type(quantity_t) :: res
 
-    ! TODO: 値を割る
-    ! TODO: 次元を引く
-
-    res%value = a%value / b%value
-    res%dims = a%dims - b%dims
+    res%value = 0.0_8
+    res%dims = 0
 
   end function quantity_divide
 
-  function quantity_divide_scalar(q, scalar) result(res)
+  function quantity_divide_scalar_left(scalar, q) result(res)
+    real(8), intent(in) :: scalar
+    type(quantity_t), intent(in) :: q
+    type(quantity_t) :: res
+
+    res%value = 0.0_8
+    res%dims = 0
+
+  end function quantity_divide_scalar_left
+
+  function quantity_divide_scalar_right(q, scalar) result(res)
     type(quantity_t), intent(in) :: q
     real(8), intent(in) :: scalar
     type(quantity_t) :: res
 
-    ! TODO: スカラーで割る（次元は変わらない）
+    res%value = 0.0_8
+    res%dims = 0
 
-    res%value = q%value / scalar
-    res%dims = q%dims
-
-  end function quantity_divide_scalar
+  end function quantity_divide_scalar_right
 
 end module dimensions
