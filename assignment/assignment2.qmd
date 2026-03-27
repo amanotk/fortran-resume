@@ -6,7 +6,7 @@ title: "Fortran演習: 提出課題2"
 
 具体的には `assignment2.f90` [^1] の最後に定義されているサブルーチン `my_sort`
 
-[^1]: <https://github.com/amanotk/fortran-resume/blob/main/assignment/template/assignment2.f90>
+[^1]: <https://amanotk.github.io/fortran-resume/template/assignment2.f90>
 
 ```fortran
   subroutine my_sort(x)
