@@ -7,8 +7,8 @@ set -e
 
 STUDENT_ID="$1"
 ASSIGNMENT_NUM="$2"
-WORK_DIR="eval/work/${STUDENT_ID}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+WORK_DIR="${SCRIPT_DIR}/work/${STUDENT_ID}"
 
 # Check argument
 if [ -z "${STUDENT_ID}" ]; then
@@ -22,7 +22,7 @@ mkdir -p "${WORK_DIR}"
 
 # 2. Download submissions
 echo "=== Downloading submissions ==="
-uv run python eval/download.py "${STUDENT_ID}" "${WORK_DIR}"
+uv run python "${SCRIPT_DIR}/download.py" "${STUDENT_ID}" "${WORK_DIR}"
 echo ""
 
 # 3. Evaluate based on assignment_num
