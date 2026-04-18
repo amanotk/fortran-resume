@@ -10,3 +10,5 @@ _*
 !.github/
 !.github/**
 *.mod
+eval/work/
+test/
