@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: ./eval/check_kadai1.sh <student_id> <work_dir> <source_file>
+# Usage: ./eval/check_assignment1.sh <student_id> <work_dir> <source_file>
 # Returns: 0 if PASS, 1 if FAIL
 
 set -e
@@ -14,7 +14,7 @@ if [ -z "${STUDENT_ID}" ] || [ -z "${WORK_DIR}" ] || [ -z "${SOURCE_FILE}" ]; th
     exit 1
 fi
 
-echo "=== Evaluating Report 1 (kadai1) ==="
+echo "=== Evaluating Assignment 1 ==="
 echo "Student ID: ${STUDENT_ID}"
 echo "Source: ${SOURCE_FILE}"
 echo ""
@@ -44,9 +44,9 @@ else
 fi
 
 # Write detailed results
-cat > "${WORK_DIR}/kadai1_results.txt" << EOF
+cat > "${WORK_DIR}/assignment1_results.txt" << EOF
 Student ID: ${STUDENT_ID}
-Report: 1 (kadai1)
+Report: 1 (assignment1)
 Compile: SUCCESS
 Run: SUCCESS
 Output Check: ${RESULT}
@@ -55,7 +55,7 @@ EOF
 
 echo ""
 echo "Result: ${RESULT}"
-echo "Results saved to: ${WORK_DIR}/kadai1_results.txt"
+echo "Results saved to: ${WORK_DIR}/assignment1_results.txt"
 
 # Return appropriate exit code
 if [ "${RESULT}" = "PASS" ]; then

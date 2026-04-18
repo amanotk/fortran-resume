@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: ./eval/check_kadai4.sh <student_id> <work_dir> <source_file>
+# Usage: ./eval/check_assignment4.sh <student_id> <work_dir> <source_file>
 # Returns: 0 if PASS, 1 if FAIL
 
 set -e
@@ -14,28 +14,28 @@ if [ -z "${STUDENT_ID}" ] || [ -z "${WORK_DIR}" ] || [ -z "${SOURCE_FILE}" ]; th
     exit 1
 fi
 
-echo "=== Evaluating Report 4 (kadai4) ==="
+echo "=== Evaluating Assignment 4 ==="
 echo "Student ID: ${STUDENT_ID}"
 echo "Source: ${SOURCE_FILE}"
 echo ""
 
-# TODO: Implement kadai4 evaluation
+# TODO: Implement assignment4 evaluation
 # - Multi-precision pi calculation
 # - Verify pi digits
 
-echo "[TODO] Implement kadai4 evaluation"
+echo "[TODO] Implement assignment4 evaluation"
 
 RESULT="PENDING"
 
 # Write results
-cat > "${WORK_DIR}/kadai4_results.txt" << EOF
+cat > "${WORK_DIR}/assignment4_results.txt" << EOF
 Student ID: ${STUDENT_ID}
-Report: 4 (kadai4)
+Report: 4 (assignment4)
 Result: ${RESULT}
 EOF
 
 echo ""
 echo "Result: ${RESULT}"
-echo "Results saved to: ${WORK_DIR}/kadai4_results.txt"
+echo "Results saved to: ${WORK_DIR}/assignment4_results.txt"
 
 exit 0

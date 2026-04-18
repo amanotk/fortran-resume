@@ -1,5 +1,5 @@
 #!/bin/bash
-# Usage: ./eval/check_kadai2.sh <student_id> <work_dir> <source_file>
+# Usage: ./eval/check_assignment3.sh <student_id> <work_dir> <source_file>
 # Returns: 0 if PASS, 1 if FAIL
 
 set -e
@@ -14,28 +14,28 @@ if [ -z "${STUDENT_ID}" ] || [ -z "${WORK_DIR}" ] || [ -z "${SOURCE_FILE}" ]; th
     exit 1
 fi
 
-echo "=== Evaluating Report 2 (kadai2) ==="
+echo "=== Evaluating Assignment 3 ==="
 echo "Student ID: ${STUDENT_ID}"
 echo "Source: ${SOURCE_FILE}"
 echo ""
 
-# TODO: Implement kadai2 evaluation
-# - Sort algorithm verification
-# - Performance comparison output
+# TODO: Implement assignment3 evaluation
+# - Hilbert curve generator
+# - Check output format (coordinate pairs)
 
-echo "[TODO] Implement kadai2 evaluation"
+echo "[TODO] Implement assignment3 evaluation"
 
 RESULT="PENDING"
 
 # Write results
-cat > "${WORK_DIR}/kadai2_results.txt" << EOF
+cat > "${WORK_DIR}/assignment3_results.txt" << EOF
 Student ID: ${STUDENT_ID}
-Report: 2 (kadai2)
+Report: 3 (assignment3)
 Result: ${RESULT}
 EOF
 
 echo ""
 echo "Result: ${RESULT}"
-echo "Results saved to: ${WORK_DIR}/kadai2_results.txt"
+echo "Results saved to: ${WORK_DIR}/assignment3_results.txt"
 
 exit 0

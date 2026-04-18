@@ -212,7 +212,7 @@ def main():
     fail_count = 0
 
     for i, url in enumerate(urls, start=1):
-        filename = f"{args.student_id}_kadai{assignment_num}_{i}.f90"
+        filename = f"{args.student_id}_assignment{assignment_num}_{i}.f90"
         output_path = output_dir / filename
 
         print(f"Downloading: {filename}...", end=" ")
