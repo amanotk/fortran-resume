@@ -61,6 +61,12 @@ uv run python eval/download.py <student_id> <output_dir>
 ./eval/check_assignment1.sh <student_id> <work_dir> <source_file>
 ```
 
+## Custom Commands
+
+- When the user invokes `@run-evaluation <student_id> <assignment_num>`, first read `.opencode/commands/run-evaluation.md` and follow it exactly before responding.
+- Do not stop after `./eval/evaluate.sh`; the task is incomplete until the final response includes the required Japanese review and score defined in the command file.
+- If the submitted source exists but compilation fails, continue the manual review and provide a score.
+
 ## Notes
 
 - `eval/work/` and `test/` are gitignored
