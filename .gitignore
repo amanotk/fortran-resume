@@ -9,5 +9,7 @@ _*
 *.tex
 !.github/
 !.github/**
+!.agents/
+!.agents/skills/
 *.mod
 eval/work/
