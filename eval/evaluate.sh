@@ -22,7 +22,7 @@ mkdir -p "${WORK_DIR}"
 
 # 2. Download submissions
 echo "=== Downloading submissions ==="
-uv run python "${SCRIPT_DIR}/download.py" "${STUDENT_ID}" "${WORK_DIR}"
+uv run python "${SCRIPT_DIR}/download.py" --force "${STUDENT_ID}" "${WORK_DIR}"
 echo ""
 
 # 3. Evaluate based on assignment_num
