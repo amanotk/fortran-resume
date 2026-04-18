@@ -127,9 +127,29 @@ echo "CONSECUTIVE DISTANCE: ${DISTANCE_INFO}"
 DISTANCE_STATUS="INFO"
 
 # 7. Save data for visual review
-echo "Saving data for visual review..."
+echo "[7/6] Saving data and generating plot..."
 echo "${COORDS}" > "${WORK_DIR}/assignment3.dat"
 echo "Data saved to: ${WORK_DIR}/assignment3.dat"
+
+# Generate PNG plot with gnuplot
+if command -v gnuplot &> /dev/null; then
+    gnuplot << GNUPLOT_EOF
+set terminal png size 600,600
+set output '${WORK_DIR}/assignment3.png'
+set size ratio -1
+set xrange [0:1]
+set yrange [0:1]
+unset key
+plot '${WORK_DIR}/assignment3.dat' with lines lc rgb 'blue' lw 1
+GNUPLOT_EOF
+    if [ -f "${WORK_DIR}/assignment3.png" ]; then
+        echo "Plot saved to: ${WORK_DIR}/assignment3.png"
+    else
+        echo "WARNING: Failed to generate plot"
+    fi
+else
+    echo "WARNING: gnuplot not found, skipping plot generation"
+fi
 
 # Determine final result
 if [ "${POINT_COUNT_STATUS}" = "PASS" ] && \
