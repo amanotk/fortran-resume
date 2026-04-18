@@ -1,7 +1,7 @@
 program assignment2
   implicit none
 
-  integer, parameter :: power = 6
+  integer, parameter :: power = 4
   integer :: i
   integer :: nx(power)
   real(8) :: cputime(2, power)
