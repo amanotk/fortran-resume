@@ -112,6 +112,7 @@ dependencies = [
     { name = "docutils" },
     { name = "pillow" },
     { name = "pygments" },
+    { name = "requests" },
     { name = "sphinx" },
     { name = "sphinx-rtd-theme" },
 ]
@@ -121,6 +122,7 @@ requires-dist = [
     { name = "docutils", specifier = "==0.21.2" },
     { name = "pillow", specifier = "==11.3.0" },
     { name = "pygments", specifier = "==2.19.2" },
+    { name = "requests", specifier = ">=2.31.0" },
     { name = "sphinx", specifier = "==7.4.7" },
     { name = "sphinx-rtd-theme", specifier = "==3.0.2" },
 ]
