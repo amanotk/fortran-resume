@@ -11,10 +11,10 @@ from pathlib import Path
 
 import requests
 
-SHEET_URL = os.environ.get(
-    "SHEET_URL",
-    "https://docs.google.com/spreadsheets/d/18me2iH4S6s6gtxfJ_mTOVDYvpsRZlG3-7Qp_9feeGWw/edit?usp=sharing",
-)
+SUBMISSION_SHEET_URL = os.environ.get("SUBMISSION_SHEET_URL")
+if not SUBMISSION_SHEET_URL:
+    print("ERROR: SUBMISSION_SHEET_URL environment variable not set", file=sys.stderr)
+    sys.exit(1)
 
 
 def is_html_content(content: bytes) -> bool:
@@ -152,7 +152,7 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    sheet_id = extract_sheet_id(SHEET_URL)
+    sheet_id = extract_sheet_id(SUBMISSION_SHEET_URL)
 
     try:
         all_rows = fetch_sheet_csv(sheet_id)

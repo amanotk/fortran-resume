@@ -11,3 +11,4 @@ _*
 !.github/**
 *.mod
 eval/work/
+.env

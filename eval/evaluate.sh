@@ -10,6 +10,14 @@ ASSIGNMENT_NUM="$2"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 WORK_DIR="${SCRIPT_DIR}/work/${STUDENT_ID}"
 
+# Load environment variables from .env if it exists
+if [ -f "${SCRIPT_DIR}/../.env" ]; then
+    set -a
+    # shellcheck source=/dev/null
+    . "${SCRIPT_DIR}/../.env"
+    set +a
+fi
+
 # Check argument
 if [ -z "${STUDENT_ID}" ]; then
     echo "Usage: $0 <student_id> [assignment_num]"
