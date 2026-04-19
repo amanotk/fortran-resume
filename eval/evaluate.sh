@@ -78,11 +78,18 @@ if [ -n "${ASSIGNMENT_NUM}" ]; then
             "${SCRIPT_DIR}/check_assignment4.sh" "${STUDENT_ID}" "${WORK_DIR}" "${SOURCE_FILE}"
             ;;
         5)
-            SOURCE_DIR=$(find "${WORK_DIR}" -type d -name '*assignment5*' | head -n 1)
-            if [ -z "${SOURCE_DIR}" ]; then
-                SOURCE_DIR="${WORK_DIR}"
+            SOURCE_FILE=$(find "${WORK_DIR}" -maxdepth 1 -name '*assignment5*.f90' -type f | head -n 1)
+            if [ -z "${SOURCE_FILE}" ]; then
+                echo "ERROR: No assignment5 submission found"
+                exit 1
             fi
-            "${SCRIPT_DIR}/check_assignment5.sh" "${STUDENT_ID}" "${WORK_DIR}" "${SOURCE_DIR}"
+            echo "Found: ${SOURCE_FILE}"
+            echo ""
+            # Create temp directory with only assignment5 file
+            A5_DIR="${WORK_DIR}/assignment5_submission"
+            rm -rf "${A5_DIR}" && mkdir -p "${A5_DIR}"
+            cp "${SOURCE_FILE}" "${A5_DIR}/"
+            "${SCRIPT_DIR}/check_assignment5.sh" "${STUDENT_ID}" "${WORK_DIR}" "${A5_DIR}"
             ;;
         *)
             echo "ERROR: Invalid assignment_num: ${ASSIGNMENT_NUM} (must be 1-5)"
@@ -127,10 +134,14 @@ else
     fi
     
     # Assignment 5
-    SOURCE_DIR=$(find "${WORK_DIR}" -type d -name '*assignment5*' | head -n 1)
-    if [ -n "${SOURCE_DIR}" ]; then
+    SOURCE_FILE=$(find "${WORK_DIR}" -maxdepth 1 -name '*assignment5*.f90' -type f | head -n 1)
+    if [ -n "${SOURCE_FILE}" ]; then
         echo "=== Assignment 5 ==="
-        "${SCRIPT_DIR}/check_assignment5.sh" "${STUDENT_ID}" "${WORK_DIR}" "${SOURCE_DIR}" || true
+        # Create temp directory with only assignment5 file
+        A5_DIR="${WORK_DIR}/assignment5_submission"
+        rm -rf "${A5_DIR}" && mkdir -p "${A5_DIR}"
+        cp "${SOURCE_FILE}" "${A5_DIR}/"
+        "${SCRIPT_DIR}/check_assignment5.sh" "${STUDENT_ID}" "${WORK_DIR}" "${A5_DIR}" || true
         echo ""
     fi
     
