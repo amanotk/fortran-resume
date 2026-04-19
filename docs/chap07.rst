@@ -23,7 +23,7 @@
     - :doc:`sample3.f90 <chap07_sample3_f90>` : 変数のスコープ
     - :doc:`sample4.f90 <chap07_sample4_f90>` : intent, 配列渡し，save
     - :doc:`sample5.f90 <chap07_sample5_f90>` : optionalとキーワード引数
-    - :doc:`sample5.f90 <chap07_sample6_f90>` : 再帰呼び出し
+    - :doc:`sample6.f90 <chap07_sample6_f90>` : 再帰呼び出し
     - :doc:`sample7.f90 <chap07_sample7_f90>` : 内部手続き
     - :doc:`sample8.f90 <chap07_sample8_f90>` : 外部手続き
 
