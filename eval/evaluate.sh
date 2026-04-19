@@ -30,7 +30,13 @@ mkdir -p "${WORK_DIR}"
 
 # 2. Download submissions
 echo "=== Downloading submissions ==="
-uv run python "${SCRIPT_DIR}/download.py" --force "${STUDENT_ID}" "${WORK_DIR}"
+if [ -n "${ASSIGNMENT_NUM}" ]; then
+    # Download specific assignment
+    uv run python "${SCRIPT_DIR}/download.py" --force --assignment "${ASSIGNMENT_NUM}" "${STUDENT_ID}" "${WORK_DIR}"
+else
+    # Download latest submission (all assignments)
+    uv run python "${SCRIPT_DIR}/download.py" --force "${STUDENT_ID}" "${WORK_DIR}"
+fi
 echo ""
 
 # 3. Evaluate based on assignment_num

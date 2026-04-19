@@ -147,6 +147,12 @@ def main():
         action="store_true",
         help="Show what would be downloaded without actually downloading",
     )
+    parser.add_argument(
+        "--assignment",
+        "-a",
+        type=int,
+        help="Download specific assignment number (1-5). If not specified, uses latest submission.",
+    )
     args = parser.parse_args()
 
     output_dir = Path(args.output_dir)
@@ -172,14 +178,42 @@ def main():
         )
         sys.exit(1)
 
-    if len(matching_rows) > 1:
-        print(
-            f"WARNING: Found {len(matching_rows)} submissions for student {args.student_id}, "
-            f"using latest (row {len(all_rows) - (len(all_rows) - matching_rows.index(matching_rows[-1]))})",
-            file=sys.stderr,
-        )
+    # Filter by assignment number if specified
+    if args.assignment is not None:
+        filtered_rows = []
+        for row in matching_rows:
+            if len(row) >= 4:
+                try:
+                    row_assignment = extract_assignment_number(row[3])
+                    if row_assignment == args.assignment:
+                        filtered_rows.append(row)
+                except ValueError:
+                    continue
 
-    latest_row = matching_rows[-1]
+        if not filtered_rows:
+            print(
+                f"ERROR: No assignment {args.assignment} submission found for student {args.student_id}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
+        if len(filtered_rows) > 1:
+            print(
+                f"WARNING: Found {len(filtered_rows)} submissions for assignment {args.assignment}, "
+                f"using latest (row {len(all_rows) - (len(all_rows) - filtered_rows.index(filtered_rows[-1]))})",
+                file=sys.stderr,
+            )
+
+        latest_row = filtered_rows[-1]
+    else:
+        # Use latest submission (original behavior)
+        if len(matching_rows) > 1:
+            print(
+                f"WARNING: Found {len(matching_rows)} submissions for student {args.student_id}, "
+                f"using latest (row {len(all_rows) - (len(all_rows) - matching_rows.index(matching_rows[-1]))})",
+                file=sys.stderr,
+            )
+        latest_row = matching_rows[-1]
 
     if len(latest_row) < 5:
         print("ERROR: Invalid row format in sheet", file=sys.stderr)
