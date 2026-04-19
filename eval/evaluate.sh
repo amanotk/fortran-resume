@@ -84,17 +84,21 @@ if [ -n "${ASSIGNMENT_NUM}" ]; then
             "${SCRIPT_DIR}/check_assignment4.sh" "${STUDENT_ID}" "${WORK_DIR}" "${SOURCE_FILE}"
             ;;
         5)
-            SOURCE_FILE=$(find "${WORK_DIR}" -maxdepth 1 -name '*assignment5*.f90' -type f | head -n 1)
-            if [ -z "${SOURCE_FILE}" ]; then
+            # Find all assignment5 files (student may submit 1 or 2 files)
+            mapfile -t SOURCE_FILES < <(find "${WORK_DIR}" -maxdepth 1 -name '*assignment5*.f90' -type f)
+            if [ ${#SOURCE_FILES[@]} -eq 0 ]; then
                 echo "ERROR: No assignment5 submission found"
                 exit 1
             fi
-            echo "Found: ${SOURCE_FILE}"
+            echo "Found ${#SOURCE_FILES[@]} file(s):"
+            for f in "${SOURCE_FILES[@]}"; do
+                echo "  - $(basename "$f")"
+            done
             echo ""
-            # Create temp directory with only assignment5 file
+            # Create temp directory with all assignment5 files
             A5_DIR="${WORK_DIR}/assignment5_submission"
             rm -rf "${A5_DIR}" && mkdir -p "${A5_DIR}"
-            cp "${SOURCE_FILE}" "${A5_DIR}/"
+            cp "${SOURCE_FILES[@]}" "${A5_DIR}/"
             "${SCRIPT_DIR}/check_assignment5.sh" "${STUDENT_ID}" "${WORK_DIR}" "${A5_DIR}"
             ;;
         *)
@@ -140,13 +144,18 @@ else
     fi
     
     # Assignment 5
-    SOURCE_FILE=$(find "${WORK_DIR}" -maxdepth 1 -name '*assignment5*.f90' -type f | head -n 1)
-    if [ -n "${SOURCE_FILE}" ]; then
+    mapfile -t SOURCE_FILES < <(find "${WORK_DIR}" -maxdepth 1 -name '*assignment5*.f90' -type f)
+    if [ ${#SOURCE_FILES[@]} -gt 0 ]; then
         echo "=== Assignment 5 ==="
-        # Create temp directory with only assignment5 file
+        echo "Found ${#SOURCE_FILES[@]} file(s):"
+        for f in "${SOURCE_FILES[@]}"; do
+            echo "  - $(basename "$f")"
+        done
+        echo ""
+        # Create temp directory with all assignment5 files
         A5_DIR="${WORK_DIR}/assignment5_submission"
         rm -rf "${A5_DIR}" && mkdir -p "${A5_DIR}"
-        cp "${SOURCE_FILE}" "${A5_DIR}/"
+        cp "${SOURCE_FILES[@]}" "${A5_DIR}/"
         "${SCRIPT_DIR}/check_assignment5.sh" "${STUDENT_ID}" "${WORK_DIR}" "${A5_DIR}" || true
         echo ""
     fi
