@@ -52,6 +52,9 @@ jobs:
       - name: Build HTML
         run: uv run make clean html
 
+      - name: Verify published data files
+        run: test -f _build/html/data/helix1.dat
+
       - name: Copy report PDFs
         run: mkdir -p _build/html/assignment && cp assignment/*.pdf _build/html/assignment/
 
