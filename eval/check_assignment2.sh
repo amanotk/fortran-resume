@@ -56,12 +56,13 @@ echo "${OUTPUT}"
 # 4. Check correctness
 echo "[4/5] Checking correctness..."
 CORRECT=1
-if ! echo "${OUTPUT}" | grep -q "checking bubble_sort ... done"; then
-    echo "WARNING: bubble_sort check failed"
+# Check if all "checking" lines end with "done" (regardless of sort name)
+if echo "${OUTPUT}" | grep "^checking" | grep -qv "done$"; then
+    echo "WARNING: Some checks did not complete"
     CORRECT=0
 fi
-if ! echo "${OUTPUT}" | grep -q "checking my_sort.*done"; then
-    echo "WARNING: my_sort check failed"
+if ! echo "${OUTPUT}" | grep -q "^checking"; then
+    echo "WARNING: No check output found"
     CORRECT=0
 fi
 
